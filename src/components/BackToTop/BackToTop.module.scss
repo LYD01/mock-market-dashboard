@@ -1,0 +1,54 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.backToTop {
+  position: fixed;
+  bottom: $spacing-xl;
+  right: $spacing-xl;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: $radius-full;
+  background: $bg-secondary;
+  border: 1px solid $border-subtle;
+  color: $text-secondary;
+  cursor: pointer;
+  z-index: $z-fixed;
+  @include flex-center;
+  transition: all $transition-base;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    background: $bg-tertiary;
+    border-color: $border-secondary;
+    color: $color-primary;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 1px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  @include respond-to(mobile) {
+    width: 2rem;
+    height: 2rem;
+    bottom: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2;
+
+  @include respond-to(mobile) {
+    width: 1rem;
+    height: 1rem;
+  }
+}

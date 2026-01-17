@@ -4,164 +4,125 @@
 .header {
   @include flex-between;
   height: auto;
-  min-height: $dashboard-header-height;
-  background: $bg-primary;
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid $border-subtle;
-  padding: $spacing-sm $spacing-sm;
-  position: sticky;
-  top: 0;
-  z-index: $z-sticky;
+  min-height: auto;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  z-index: $z-base;
   flex-wrap: wrap;
   gap: $spacing-xs;
+  margin-bottom: $spacing-md;
 
   @include respond-to(sm) {
-    padding: $spacing-sm $spacing-md;
-    height: $dashboard-header-height;
-    flex-wrap: nowrap;
+    margin-bottom: $spacing-lg;
   }
 
   @include respond-to(md) {
-    padding: 0 $spacing-xl;
+    margin-bottom: $spacing-xl;
   }
 }
 
 .left {
-  @include flex-column;
-  gap: $spacing-xs;
-}
-
-.title {
-  font-family: $font-family-primary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $text-primary;
-  margin: 0;
-  letter-spacing: -0.01em;
+  @include flex-center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: $spacing-md $spacing-sm;
+  order: 1;
+  width: 100%;
 
   @include respond-to(sm) {
-    font-size: $font-size-lg;
+    padding: $spacing-lg $spacing-md;
+    width: auto;
+    order: initial;
   }
 
   @include respond-to(md) {
-    font-size: $font-size-xl;
+    padding: $spacing-xl;
   }
 }
 
-.subtitle {
-  font-size: $font-size-xs;
-  color: $text-tertiary;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: $font-family-mono;
-}
-
-.right {
-  @include flex-center;
-}
-
-.status {
+.nav {
   @include flex-column;
-  align-items: flex-end;
   gap: $spacing-xs;
-
-  @include respond-to(mobile) {
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  @include respond-to(sm) {
-    align-items: flex-end;
-    width: auto;
-  }
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.connectionToggle {
-  @include flex-center;
-  gap: $spacing-xs;
-  margin-bottom: $spacing-xs;
-
-  @include respond-to(sm) {
-    gap: $spacing-sm;
-  }
-}
-
-.toggleLabel {
-  font-size: 0.625rem; // 10px for mobile
-  color: $text-tertiary;
-  font-family: $font-family-mono;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: $font-weight-normal;
-
-  @include respond-to(sm) {
-    font-size: $font-size-xs;
-  }
-}
-
-.toggleSwitch {
-  position: relative;
-  width: 40px;
-  height: 22px;
+.navButton {
+  padding: $spacing-xs $spacing-sm;
+  background: transparent;
   border: none;
-  border-radius: $radius-full;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-family: $font-family-primary;
+  font-weight: $font-weight-normal;
   cursor: pointer;
   transition: all $transition-base;
-  padding: 0;
-  background: $bg-tertiary;
-  border: 1px solid $border-subtle;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  position: relative;
 
   @include respond-to(sm) {
-    width: 44px;
-    height: 24px;
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-base;
+  }
+
+  &:hover {
+    color: $text-primary;
+  }
+
+  &.active {
+    color: $text-primary;
+    font-weight: $font-weight-bold;
+    text-decoration: underline;
+    text-decoration-color: $color-primary;
+    text-underline-offset: 4px;
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba($color-primary, 0.3);
   }
+}
 
-  &.enabled {
-    background: rgba($color-secondary, 0.2);
-    border-color: $color-secondary;
+.right {
+  @include flex-center;
+  padding: $spacing-md $spacing-sm;
+  width: 100%;
+  order: 2;
 
-    .toggleSlider {
-      transform: translateX(18px);
-      background: $color-secondary;
-      box-shadow: 0 0 8px $color-secondary-glow;
-    }
-
-    @include respond-to(sm) {
-      .toggleSlider {
-        transform: translateX(20px);
-      }
-    }
+  @include respond-to(sm) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    padding: $spacing-lg $spacing-md;
+    order: initial;
   }
 
-  &.disabled {
-    background: $bg-tertiary;
-    border-color: $border-subtle;
-
-    .toggleSlider {
-      transform: translateX(2px);
-      background: $text-tertiary;
-    }
+  @include respond-to(md) {
+    padding: $spacing-xl;
   }
 }
 
-.toggleSlider {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: $radius-full;
-  transition: all $transition-base;
-  background: $text-tertiary;
+.status {
+  @include flex-center;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $spacing-xs;
+  width: 100%;
 
   @include respond-to(sm) {
-    width: 18px;
-    height: 18px;
+    flex-direction: row;
+    align-items: center;
+    gap: $spacing-sm;
+    width: auto;
+    flex-wrap: wrap;
   }
 }
 
@@ -169,6 +130,11 @@
   @include flex-center;
   gap: $spacing-sm;
   font-size: $font-size-sm;
+  align-self: flex-end;
+
+  @include respond-to(sm) {
+    align-self: center;
+  }
 }
 
 .statusDot {
@@ -204,19 +170,31 @@
   font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-family: $font-family-mono;
+  text-align: right;
 
   @include respond-to(sm) {
     font-size: $font-size-xs;
+    white-space: nowrap;
   }
 }
 
 .error {
   @include flex-center;
-  gap: $spacing-sm;
+  flex-direction: column;
+  gap: $spacing-xs;
   padding: $spacing-xs $spacing-sm;
   background: rgba($color-danger, 0.1);
   border: 1px solid rgba($color-danger, 0.3);
   border-radius: $radius-sm;
+  width: 100%;
+  text-align: right;
+
+  @include respond-to(sm) {
+    flex-direction: row;
+    gap: $spacing-sm;
+    width: auto;
+    white-space: nowrap;
+  }
 }
 
 .errorText {

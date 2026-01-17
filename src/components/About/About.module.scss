@@ -1,0 +1,126 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-md;
+
+  @include respond-to(sm) {
+    gap: $spacing-2xl;
+    padding: $spacing-lg;
+  }
+
+  @include respond-to(md) {
+    gap: $spacing-3xl;
+    padding: $spacing-xl;
+  }
+}
+
+.plaque {
+  background: rgba($bg-tertiary, 0.4);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  backdrop-filter: blur(10px);
+
+  @include respond-to(sm) {
+    padding: $spacing-xl;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-2xl;
+  }
+}
+
+.title {
+  font-family: $font-family-display;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  @include respond-to(sm) {
+    font-size: $font-size-2xl;
+  }
+
+  @include respond-to(md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+.subtitle {
+  font-size: $font-size-base;
+  color: $text-secondary;
+  font-family: $font-family-primary;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-relaxed;
+  letter-spacing: 0.01em;
+  font-style: italic;
+  margin: 0;
+
+  @include respond-to(sm) {
+    font-size: $font-size-lg;
+  }
+}
+
+.content {
+  background: rgba($bg-tertiary, 0.3);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  backdrop-filter: blur(10px);
+
+  @include respond-to(sm) {
+    padding: $spacing-xl;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-2xl;
+  }
+}
+
+.sectionTitle {
+  font-family: $font-family-display;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xl;
+    margin: 0 0 $spacing-lg 0;
+  }
+}
+
+.sectionContent {
+  font-family: $font-family-primary;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  line-height: $line-height-relaxed;
+  margin: 0;
+
+  @include respond-to(sm) {
+    font-size: $font-size-base;
+  }
+
+  p {
+    margin: 0 0 $spacing-md 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  strong {
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+  }
+}

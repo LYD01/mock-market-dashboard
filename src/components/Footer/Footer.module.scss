@@ -1,0 +1,81 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.footer {
+  margin-top: auto;
+  padding: $spacing-lg $spacing-sm;
+  border-top: 1px solid rgba($text-tertiary, 0.1);
+  background: transparent;
+
+  @include respond-to(sm) {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-2xl $spacing-xl;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+.favicon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.7;
+  transition: opacity $transition-fast;
+
+  @include respond-to(sm) {
+    width: 28px;
+    height: 28px;
+  }
+
+  @include respond-to(md) {
+    width: 32px;
+    height: 32px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.text {
+  font-family: $font-family-primary;
+}
+
+.link {
+  color: $text-secondary;
+  text-decoration: none;
+  font-family: $font-family-primary;
+  transition: all $transition-fast;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: $font-size-xs;
+
+  &:hover {
+    color: $color-primary;
+    text-shadow: 0 0 8px $color-primary-glow;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.separator {
+  color: $text-tertiary;
+  opacity: 0.5;
+}

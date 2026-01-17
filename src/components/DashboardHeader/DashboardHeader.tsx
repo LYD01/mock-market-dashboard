@@ -6,8 +6,8 @@ interface DashboardHeaderProps {
   lastUpdate: Date | null;
   error: string | null;
   onReconnect: () => void;
-  connectionEnabled: boolean;
-  onConnectionToggle: (enabled: boolean) => void;
+  currentView: 'dashboard' | 'about';
+  onViewChange: (view: 'dashboard' | 'about') => void;
 }
 
 export function DashboardHeader({
@@ -15,33 +15,32 @@ export function DashboardHeader({
   lastUpdate,
   error,
   onReconnect,
-  connectionEnabled,
-  onConnectionToggle,
+  currentView,
+  onViewChange,
 }: DashboardHeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <h1 className={styles.title}>Market Dashboard</h1>
-        <span className={styles.subtitle}>Real-time Market Data</span>
+        <nav className={styles.nav}>
+          <button
+            className={`${styles.navButton} ${currentView === 'dashboard' ? styles.active : ''}`}
+            onClick={() => onViewChange('dashboard')}
+            type="button"
+          >
+            Dashboard
+          </button>
+          <button
+            className={`${styles.navButton} ${currentView === 'about' ? styles.active : ''}`}
+            onClick={() => onViewChange('about')}
+            type="button"
+          >
+            About
+          </button>
+        </nav>
       </div>
 
       <div className={styles.right}>
         <div className={styles.status}>
-          <div className={styles.connectionToggle}>
-            <label htmlFor="connection-toggle" className={styles.toggleLabel}>
-              Simulate Disconnect:
-            </label>
-            <button
-              id="connection-toggle"
-              type="button"
-              onClick={() => onConnectionToggle(!connectionEnabled)}
-              className={`${styles.toggleSwitch} ${connectionEnabled ? styles.enabled : styles.disabled}`}
-              aria-label={connectionEnabled ? 'Disable connection' : 'Enable connection'}
-            >
-              <span className={styles.toggleSlider} />
-            </button>
-          </div>
-
           <div className={`${styles.statusIndicator} ${isConnected ? styles.connected : styles.disconnected}`}>
             <span className={styles.statusDot} />
             <span className={styles.statusText}>{isConnected ? 'Connected' : 'Disconnected'}</span>
