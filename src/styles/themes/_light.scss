@@ -1,0 +1,27 @@
+// ============================================
+// Light Theme (Optional - for docs section)
+// ============================================
+
+@use '../abstracts/variables' as *;
+
+// Light theme for documentation section
+.theme-light,
+[data-theme='light'] {
+  background: #f5f5f5;
+  color: #1a1a1a;
+
+  // Override colors for light theme
+  --color-primary: #{$color-primary-dark};
+  --color-secondary: #{$color-secondary-dark};
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+
+  // Adjust glows for light theme
+  .panel {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}

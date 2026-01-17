@@ -1,0 +1,177 @@
+// ============================================
+// Typography System
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Headings
+h1,
+.h1 {
+  font-family: $font-family-display;
+  font-size: $font-size-5xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.02em;
+  color: $text-primary;
+
+  @include respond-to(lg) {
+    font-size: $font-size-5xl;
+  }
+}
+
+h2,
+.h2 {
+  font-family: $font-family-display;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.01em;
+  color: $text-primary;
+}
+
+h3,
+.h3 {
+  font-family: $font-family-display;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $text-primary;
+}
+
+h4,
+.h4 {
+  font-family: $font-family-display;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+  color: $text-primary;
+}
+
+h5,
+.h5 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-normal;
+  color: $text-primary;
+}
+
+h6,
+.h6 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  color: $text-secondary;
+}
+
+// Body Text
+p {
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $text-secondary;
+}
+
+// Small Text
+small,
+.text-sm {
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}
+
+.text-xs {
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+// Monospace (for data)
+.mono,
+code,
+pre {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+}
+
+// Text Utilities
+.text-primary {
+  color: $text-primary;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.text-tertiary {
+  color: $text-tertiary;
+}
+
+.text-muted {
+  color: $text-muted;
+}
+
+.text-accent {
+  color: $color-primary;
+}
+
+.text-success {
+  color: $color-secondary;
+}
+
+.text-danger {
+  color: $color-danger;
+}
+
+// Font Weights
+.font-light {
+  font-weight: $font-weight-light;
+}
+.font-normal {
+  font-weight: $font-weight-normal;
+}
+.font-medium {
+  font-weight: $font-weight-medium;
+}
+.font-semibold {
+  font-weight: $font-weight-semibold;
+}
+.font-bold {
+  font-weight: $font-weight-bold;
+}
+
+// Text Alignment
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+// Text Transform
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+// Truncation
+.truncate {
+  @include text-truncate;
+}
+
+// Line Clamp
+.line-clamp-2 {
+  @include text-clamp(2);
+}
+
+.line-clamp-3 {
+  @include text-clamp(3);
+}

@@ -1,0 +1,220 @@
+// ============================================
+// Mixins
+// Reusable SCSS patterns
+// ============================================
+
+@use 'variables' as *;
+
+// Responsive Breakpoints
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+  @if $breakpoint == 2xl {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+// Flexbox Utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Text Utilities
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Cockpit Glow Effects
+@mixin glow-primary {
+  box-shadow: $glow-primary;
+}
+
+@mixin glow-secondary {
+  box-shadow: $glow-secondary;
+}
+
+@mixin glow-danger {
+  box-shadow: $glow-danger;
+}
+
+@mixin glow-custom($color, $intensity: 0.3) {
+  box-shadow:
+    0 0 10px rgba($color, $intensity),
+    0 0 20px rgba($color, $intensity * 0.5);
+}
+
+// Border Glow
+@mixin border-glow($color: $color-primary, $intensity: 0.3) {
+  border: 1px solid rgba($color, $intensity);
+  box-shadow: 0 0 8px rgba($color, $intensity * 0.5);
+}
+
+// Panel/Card Styling
+@mixin panel {
+  background: $bg-tertiary;
+  border: $dashboard-border-width solid $border-subtle;
+  border-radius: $radius-md;
+  padding: $dashboard-panel-padding;
+  backdrop-filter: blur(10px);
+}
+
+@mixin panel-elevated {
+  @include panel;
+  background: $bg-elevated;
+  box-shadow: $shadow-lg;
+}
+
+// Scrollbar Styling
+@mixin scrollbar-thin($thumb-color: $color-primary, $track-color: $bg-secondary) {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($thumb-color, 0.3);
+    border-radius: $radius-full;
+
+    &:hover {
+      background: rgba($thumb-color, 0.5);
+    }
+  }
+}
+
+// Focus States
+@mixin focus-ring($color: $color-primary) {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba($color, 0.5);
+}
+
+// Animations
+@mixin pulse($color: $color-primary) {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba($color, 0.7);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 0 8px rgba($color, 0);
+    }
+  }
+}
+
+@mixin fade-in($duration: $transition-base) {
+  animation: fadeIn $duration;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin slide-up($duration: $transition-smooth) {
+  animation: slideUp $duration;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Data Display (for stock prices, numbers)
+@mixin data-display {
+  font-family: $font-family-mono;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.05em;
+}
+
+// Status Indicators
+@mixin status-up {
+  color: $color-secondary;
+  @include glow-secondary;
+}
+
+@mixin status-down {
+  color: $color-danger;
+  @include glow-danger;
+}
+
+@mixin status-neutral {
+  color: $text-secondary;
+}
+
+// Glass Morphism
+@mixin glass {
+  background: rgba($bg-tertiary, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Hover Lift Effect
+@mixin hover-lift {
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-xl;
+  }
+}

@@ -1,0 +1,145 @@
+// ============================================
+// Data Display Components (Stock Prices, Numbers)
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Data Value (monospace for numbers)
+.data-value {
+  @include data-display;
+  font-size: $font-size-xl;
+  color: $text-primary;
+}
+
+.data-value-lg {
+  @include data-display;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}
+
+.data-value-sm {
+  @include data-display;
+  font-size: $font-size-base;
+  color: $text-secondary;
+}
+
+// Price Display
+.price {
+  @include data-display;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+}
+
+.price-up {
+  @extend .price;
+  @include status-up;
+}
+
+.price-down {
+  @extend .price;
+  @include status-down;
+}
+
+.price-neutral {
+  @extend .price;
+  @include status-neutral;
+}
+
+// Change Indicator
+.change {
+  @include data-display;
+  font-size: $font-size-base;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.change-up {
+  @extend .change;
+  @include status-up;
+
+  &::before {
+    content: '▲';
+    font-size: 0.7em;
+  }
+}
+
+.change-down {
+  @extend .change;
+  @include status-down;
+
+  &::before {
+    content: '▼';
+    font-size: 0.7em;
+  }
+}
+
+.change-neutral {
+  @extend .change;
+  @include status-neutral;
+
+  &::before {
+    content: '—';
+    font-size: 0.7em;
+  }
+}
+
+// Percentage
+.percentage {
+  @include data-display;
+  font-size: $font-size-sm;
+}
+
+.percentage-up {
+  @extend .percentage;
+  color: $color-secondary;
+}
+
+.percentage-down {
+  @extend .percentage;
+  color: $color-danger;
+}
+
+// Label
+.data-label {
+  font-size: $font-size-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-tertiary;
+  margin-bottom: $spacing-xs;
+}
+
+// Stat Card
+.stat-card {
+  @include panel;
+  text-align: center;
+
+  .data-label {
+    margin-bottom: $spacing-sm;
+  }
+
+  .data-value-lg {
+    margin-bottom: $spacing-xs;
+  }
+}
+
+// Animated Number (for real-time updates)
+.data-animated {
+  transition: color $transition-fast;
+
+  &.updating {
+    animation: flash 0.3s ease;
+  }
+
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}

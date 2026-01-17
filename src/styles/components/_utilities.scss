@@ -1,0 +1,203 @@
+// ============================================
+// Utility Classes
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Borders
+.border {
+  border: 1px solid $border-secondary;
+}
+.border-top {
+  border-top: 1px solid $border-secondary;
+}
+.border-bottom {
+  border-bottom: 1px solid $border-secondary;
+}
+.border-left {
+  border-left: 1px solid $border-secondary;
+}
+.border-right {
+  border-right: 1px solid $border-secondary;
+}
+
+.border-primary {
+  border-color: $border-primary;
+}
+.border-subtle {
+  border-color: $border-subtle;
+}
+
+// Border Radius
+.rounded-sm {
+  border-radius: $radius-sm;
+}
+.rounded-md {
+  border-radius: $radius-md;
+}
+.rounded-lg {
+  border-radius: $radius-lg;
+}
+.rounded-full {
+  border-radius: $radius-full;
+}
+
+// Shadows
+.shadow-sm {
+  box-shadow: $shadow-sm;
+}
+.shadow-md {
+  box-shadow: $shadow-md;
+}
+.shadow-lg {
+  box-shadow: $shadow-lg;
+}
+.shadow-xl {
+  box-shadow: $shadow-xl;
+}
+
+// Glows
+.glow-primary {
+  @include glow-primary;
+}
+.glow-secondary {
+  @include glow-secondary;
+}
+.glow-danger {
+  @include glow-danger;
+}
+
+// Backgrounds
+.bg-primary {
+  background: $bg-primary;
+}
+.bg-secondary {
+  background: $bg-secondary;
+}
+.bg-tertiary {
+  background: $bg-tertiary;
+}
+.bg-elevated {
+  background: $bg-elevated;
+}
+
+// Width & Height
+.w-full {
+  width: 100%;
+}
+.h-full {
+  height: 100%;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+
+// Position
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.sticky {
+  position: sticky;
+}
+
+// Overflow
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+// Display
+.hidden {
+  display: none;
+}
+.block {
+  display: block;
+}
+.inline {
+  display: inline;
+}
+.inline-block {
+  display: inline-block;
+}
+
+// Opacity
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-75 {
+  opacity: 0.75;
+}
+.opacity-100 {
+  opacity: 1;
+}
+
+// Pointer Events
+.pointer-events-none {
+  pointer-events: none;
+}
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+// Cursor
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+// Transitions
+.transition {
+  transition: all $transition-base;
+}
+.transition-fast {
+  transition: all $transition-fast;
+}
+.transition-slow {
+  transition: all $transition-slow;
+}
+
+// Animations
+.animate-fade-in {
+  @include fade-in;
+}
+.animate-slide-up {
+  @include slide-up;
+}
+.animate-pulse {
+  @include pulse;
+}
+
+// Hover Effects
+.hover-lift {
+  @include hover-lift;
+}
+
+// Glass Effect
+.glass {
+  @include glass;
+}
+
+// Scrollbar
+.scrollbar-thin {
+  @include scrollbar-thin;
+}

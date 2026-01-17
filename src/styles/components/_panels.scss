@@ -1,0 +1,67 @@
+// ============================================
+// Panel Components (Dashboard Cards)
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Base Panel
+.panel {
+  @include panel;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $border-primary;
+  }
+}
+
+// Elevated Panel
+.panel-elevated {
+  @include panel-elevated;
+}
+
+// Panel with Glow
+.panel-glow {
+  @include panel;
+  @include border-glow($color-primary, 0.2);
+
+  &:hover {
+    @include border-glow($color-primary, 0.4);
+  }
+}
+
+// Panel Header
+.panel-header {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.panel-title {
+  font-family: $font-family-display;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.panel-subtitle {
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+  margin-top: $spacing-xs;
+}
+
+// Panel Body
+.panel-body {
+  // Content area
+}
+
+// Panel Footer
+.panel-footer {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-subtle;
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}

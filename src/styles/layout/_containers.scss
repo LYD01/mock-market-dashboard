@@ -1,0 +1,171 @@
+// ============================================
+// Container & Layout System
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Main Container
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+
+  @include respond-to(sm) {
+    max-width: $breakpoint-sm;
+  }
+
+  @include respond-to(md) {
+    max-width: $breakpoint-md;
+    padding-left: $spacing-lg;
+    padding-right: $spacing-lg;
+  }
+
+  @include respond-to(lg) {
+    max-width: $breakpoint-lg;
+  }
+
+  @include respond-to(xl) {
+    max-width: $breakpoint-xl;
+  }
+
+  @include respond-to(2xl) {
+    max-width: $breakpoint-2xl;
+  }
+}
+
+// Full Width Container
+.container-full {
+  width: 100%;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+}
+
+// Dashboard Layout
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  height: $dashboard-header-height;
+  background: rgba($bg-primary, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid $border-subtle;
+  @include flex-between;
+  padding: 0 $spacing-xl;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: $spacing-xl;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl;
+  }
+}
+
+// Grid System
+.grid {
+  display: grid;
+  gap: $grid-gap;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-cols-12 {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+@include respond-to(md) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@include respond-to(lg) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lg\:grid-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+// Flex Utilities
+.flex {
+  display: flex;
+}
+.flex-col {
+  @include flex-column;
+}
+.flex-center {
+  @include flex-center;
+}
+.flex-between {
+  @include flex-between;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-sm {
+  gap: $spacing-sm;
+}
+.gap-md {
+  gap: $spacing-md;
+}
+.gap-lg {
+  gap: $spacing-lg;
+}
+
+// Section Spacing
+.section {
+  padding: $spacing-3xl 0;
+
+  @include respond-to(lg) {
+    padding: $spacing-4xl 0;
+  }
+}
+
+// Docs Section (scrollable area)
+.docs-section {
+  min-height: 100vh;
+  padding: $spacing-3xl $spacing-xl;
+  background: $bg-secondary;
+
+  @include respond-to(lg) {
+    padding: $spacing-4xl $spacing-2xl;
+  }
+}

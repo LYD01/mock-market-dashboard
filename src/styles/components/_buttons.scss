@@ -1,0 +1,88 @@
+// ============================================
+// Button Components
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Base Button
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Primary Button (Cyan)
+.btn-primary {
+  background: transparent;
+  border-color: $color-primary;
+  color: $color-primary;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary, 0.1);
+    @include glow-primary;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+// Secondary Button
+.btn-secondary {
+  background: transparent;
+  border-color: $border-secondary;
+  color: $text-secondary;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    color: $color-primary;
+    background: rgba($color-primary, 0.05);
+  }
+}
+
+// Ghost Button
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: $text-secondary;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// Sizes
+.btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.btn-lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-lg;
+}

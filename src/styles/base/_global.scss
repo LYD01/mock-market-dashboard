@@ -1,0 +1,88 @@
+// ============================================
+// Global Styles
+// ============================================
+
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Root Variables (for dynamic theming)
+:root {
+  --color-primary: #{$color-primary};
+  --color-secondary: #{$color-secondary};
+  --color-danger: #{$color-danger};
+  --bg-primary: #{$bg-primary};
+  --bg-secondary: #{$bg-secondary};
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+}
+
+// App Container
+#root {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+// Main App Layout
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bg-primary;
+  color: $text-primary;
+}
+
+// Selection
+::selection {
+  background: rgba($color-primary, 0.3);
+  color: $text-primary;
+}
+
+::-moz-selection {
+  background: rgba($color-primary, 0.3);
+  color: $text-primary;
+}
+
+// Scrollbar & Smooth scrolling
+html {
+  scroll-behavior: smooth;
+  @include scrollbar-thin($color-primary, $bg-secondary);
+}
+
+// Focus styles
+:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+  border-radius: $radius-sm;
+}
+
+// Utility Classes
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Loading States
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+// Disabled States
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// Screen Reader Only
+.sr-only {
+  @extend .visually-hidden;
+}

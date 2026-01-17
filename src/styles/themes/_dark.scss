@@ -1,0 +1,24 @@
+// ============================================
+// Dark Theme (Default - Fighter Jet Cockpit)
+// ============================================
+
+@use '../abstracts/variables' as *;
+
+// This is the default theme, so styles are applied globally
+// The dark theme is active by default
+
+body {
+  background: $bg-primary;
+  color: $text-primary;
+
+  // Subtle background pattern (optional - can be removed if too much)
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.02) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+// Theme-specific overrides can go here
+.theme-dark {
+  // Explicit dark theme class if needed
+}
