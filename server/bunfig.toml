@@ -1,0 +1,8 @@
+# Bun configuration for the market data server
+
+[install]
+# Use npm registry for compatibility
+registry = "https://registry.npmjs.org/"
+
+# Prefer local packages
+prefer = "latest"

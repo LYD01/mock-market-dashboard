@@ -1,3 +1,123 @@
-.ticksTable {
-  // Add your styles here
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.panel {
+  @include panel;
+  @include slide-up;
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.title {
+  font-family: $font-family-display;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.count {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  @include scrollbar-thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+}
+
+.th {
+  padding: $spacing-md;
+  text-align: left;
+  font-weight: $font-weight-semibold;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: $font-size-xs;
+  border-bottom: 2px solid $border-subtle;
+  white-space: nowrap;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.td {
+  padding: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+  color: $text-primary;
+}
+
+.row {
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba($bg-elevated, 0.3);
+  }
+}
+
+.dateCell {
+  @include flex-column;
+  gap: $spacing-xs;
+}
+
+.time {
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+.high {
+  color: $color-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.low {
+  color: $color-danger;
+  font-weight: $font-weight-medium;
+}
+
+.close {
+  font-weight: $font-weight-semibold;
+}
+
+.change {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.up {
+  color: $color-secondary;
+}
+
+.down {
+  color: $color-danger;
+}
+
+.neutral {
+  color: $text-tertiary;
+}
+
+.empty {
+  text-align: center;
+  padding: $spacing-3xl;
+  color: $text-tertiary;
 }

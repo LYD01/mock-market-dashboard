@@ -1,0 +1,79 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.filter {
+  @include panel;
+  @include flex-column;
+  gap: $spacing-md;
+}
+
+.label {
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-tertiary;
+  font-weight: $font-weight-medium;
+}
+
+.inputs {
+  @include flex-center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.inputGroup {
+  @include flex-column;
+  gap: $spacing-xs;
+}
+
+.inputLabel {
+  font-size: $font-size-xs;
+  color: $text-secondary;
+  font-family: $font-family-mono;
+}
+
+.input {
+  padding: $spacing-sm $spacing-md;
+  background: $bg-elevated;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-primary;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  transition: all $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+}
+
+.clearButton {
+  padding: $spacing-sm $spacing-md;
+  background: rgba($color-danger, 0.1);
+  border: 1px solid rgba($color-danger, 0.3);
+  border-radius: $radius-sm;
+  color: $color-danger;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+  font-family: $font-family-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-end;
+
+  &:hover {
+    background: rgba($color-danger, 0.2);
+    border-color: $color-danger;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

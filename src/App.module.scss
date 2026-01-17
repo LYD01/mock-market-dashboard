@@ -1,0 +1,76 @@
+@use './styles/abstracts/variables' as *;
+@use './styles/abstracts/mixins' as *;
+
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bg-primary;
+  color: $text-primary;
+}
+
+.main {
+  flex: 1;
+  padding: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.viewToggle {
+  display: flex;
+  gap: $spacing-sm;
+  background: $bg-tertiary;
+  padding: $spacing-xs;
+  border-radius: $radius-md;
+  border: 1px solid $border-subtle;
+}
+
+.toggleButton {
+  padding: $spacing-sm $spacing-lg;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($bg-elevated, 0.5);
+  }
+
+  &.active {
+    background: rgba($color-primary, 0.2);
+    color: $color-primary;
+    border: 1px solid rgba($color-primary, 0.3);
+    box-shadow: 0 0 8px rgba($color-primary, 0.2);
+  }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

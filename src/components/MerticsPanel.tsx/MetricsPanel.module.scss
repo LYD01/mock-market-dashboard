@@ -1,5 +1,105 @@
-.metricsPanel {
-  padding: 1rem;
-  background-color: red;
-  border: 1px solid #ccc;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.panel {
+  @include panel;
+  @include slide-up;
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.title {
+  font-family: $font-family-display;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.timestamp {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $spacing-md;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.statCard {
+  @include flex-column;
+  padding: $spacing-md;
+  background: rgba($bg-elevated, 0.5);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $border-primary;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.label {
+  font-size: $font-size-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-tertiary;
+  margin-bottom: $spacing-sm;
+  font-weight: $font-weight-medium;
+}
+
+.value {
+  font-family: $font-family-mono;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  line-height: $line-height-tight;
+}
+
+.highlight {
+  color: $color-secondary;
+  @include glow-secondary;
+}
+
+.lowlight {
+  color: $color-danger;
+  @include glow-danger;
+}
+
+.priceUp {
+  color: $color-secondary;
+  @include glow-secondary;
+}
+
+.priceDown {
+  color: $color-danger;
+  @include glow-danger;
+}
+
+.priceNeutral {
+  color: $text-secondary;
+}
+
+.change {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  margin-top: $spacing-xs;
+  font-weight: $font-weight-medium;
 }

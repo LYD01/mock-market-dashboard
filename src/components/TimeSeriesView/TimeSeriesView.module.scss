@@ -1,0 +1,188 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.panel {
+  @include panel;
+  @include slide-up;
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-subtle;
+}
+
+.title {
+  font-family: $font-family-display;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.count {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+}
+
+.chartContainer {
+  @include flex-center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  min-height: 300px;
+}
+
+.yAxis {
+  @include flex-column;
+  justify-content: space-between;
+  height: 300px;
+  padding-right: $spacing-md;
+}
+
+.yLabel {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+.chart {
+  flex: 1;
+  position: relative;
+  height: 300px;
+  background: rgba($bg-elevated, 0.3);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.gridLine {
+  stroke: $border-subtle;
+  stroke-width: 0.5;
+}
+
+.priceLine {
+  stroke: $color-primary;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px $color-primary-glow);
+}
+
+.rangeLine {
+  stroke: rgba($color-primary, 0.3);
+  stroke-width: 1;
+}
+
+.ticksList {
+  @include flex-column;
+  gap: $spacing-sm;
+  max-height: 400px;
+  overflow-y: auto;
+  @include scrollbar-thin;
+}
+
+.tickItem {
+  @include flex-between;
+  padding: $spacing-md;
+  background: rgba($bg-elevated, 0.3);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  gap: $spacing-md;
+
+  &:hover {
+    border-color: $border-primary;
+    background: rgba($bg-elevated, 0.5);
+  }
+}
+
+.tickDate {
+  @include flex-column;
+  min-width: 120px;
+}
+
+.date {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.time {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+.tickPrices {
+  @include flex-center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.priceGroup {
+  @include flex-center;
+  gap: $spacing-xs;
+}
+
+.priceLabel {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+  text-transform: uppercase;
+}
+
+.priceValue {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.high {
+  color: $color-secondary;
+}
+
+.low {
+  color: $color-danger;
+}
+
+.up {
+  color: $color-secondary;
+}
+
+.down {
+  color: $color-danger;
+}
+
+.tickMeta {
+  @include flex-column;
+  align-items: flex-end;
+  gap: $spacing-xs;
+  min-width: 150px;
+}
+
+.volume {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+}
+
+.change {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.empty {
+  @include flex-center;
+  padding: $spacing-3xl;
+  color: $text-tertiary;
+  font-size: $font-size-lg;
+}

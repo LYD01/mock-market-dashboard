@@ -1,0 +1,119 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.header {
+  @include flex-between;
+  height: $dashboard-header-height;
+  background: rgba($bg-primary, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid $border-subtle;
+  padding: 0 $spacing-xl;
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+}
+
+.left {
+  @include flex-column;
+  gap: $spacing-xs;
+}
+
+.title {
+  font-family: $font-family-display;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $text-tertiary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.right {
+  @include flex-center;
+}
+
+.status {
+  @include flex-column;
+  align-items: flex-end;
+  gap: $spacing-xs;
+}
+
+.statusIndicator {
+  @include flex-center;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-full;
+  display: inline-block;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.statusIndicator.connected .statusDot {
+  background: $color-secondary;
+  box-shadow: 0 0 8px $color-secondary-glow;
+}
+
+.statusIndicator.disconnected .statusDot {
+  background: $color-danger;
+  box-shadow: 0 0 8px $color-danger-glow;
+}
+
+.statusText {
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: $font-size-xs;
+}
+
+.lastUpdate {
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+  font-family: $font-family-mono;
+}
+
+.error {
+  @include flex-center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
+  background: rgba($color-danger, 0.1);
+  border: 1px solid rgba($color-danger, 0.3);
+  border-radius: $radius-sm;
+}
+
+.errorText {
+  font-size: $font-size-xs;
+  color: $color-danger;
+}
+
+.reconnectButton {
+  padding: $spacing-xs $spacing-sm;
+  background: rgba($color-primary, 0.1);
+  border: 1px solid rgba($color-primary, 0.3);
+  border-radius: $radius-sm;
+  color: $color-primary;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  transition: all $transition-fast;
+  font-family: $font-family-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &:hover {
+    background: rgba($color-primary, 0.2);
+    border-color: $color-primary;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
