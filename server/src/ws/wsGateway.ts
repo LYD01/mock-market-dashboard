@@ -6,11 +6,10 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { eventBus } from '../bus/eventBus.js';
 import {
-  createTickMessage,
+  createBatchedTickMessage,
   createMetricsMessage,
   createSnapshotMessage,
   createErrorMessage,
-  serializeMessage,
 } from './protocol.js';
 import { MetricsCalculator } from '../metrics/stats.js';
 import type { MarketTick, MarketMetrics } from '../../../src/types/market.js';
@@ -27,6 +26,10 @@ export class WSGateway {
   private metricsCalculator: MetricsCalculator;
   private recentTicks: MarketTick[] = [];
   private readonly maxRecentTicks = 1000;
+  private tickBuffer: MarketTick[] = [];
+  private readonly batchSize = 10; // Batch 10 ticks together
+  private batchTimeout: NodeJS.Timeout | null = null;
+  private readonly batchDelay = 50; // Max 50ms delay for batching
 
   constructor() {
     this.metricsCalculator = new MetricsCalculator();
@@ -67,7 +70,7 @@ export class WSGateway {
       const snapshot = createSnapshotMessage(
         this.recentTicks.slice(0, 100), // Send last 100 ticks
       );
-      ws.send(serializeMessage(snapshot));
+      ws.send(snapshot);
     }
 
     ws.on('message', (data: Buffer) => {
@@ -76,7 +79,7 @@ export class WSGateway {
         this.handleClientMessage(clientId, message);
       } catch (error) {
         console.error(`Error parsing message from ${clientId}:`, error);
-        ws.send(serializeMessage(createErrorMessage('Invalid message format')));
+        ws.send(createErrorMessage('Invalid message format'));
       }
     });
 
@@ -133,6 +136,25 @@ export class WSGateway {
   }
 
   /**
+   * Flush batched ticks
+   */
+  private flushTickBuffer(): void {
+    if (this.tickBuffer.length === 0) {
+      return;
+    }
+
+    const ticksToSend = [...this.tickBuffer];
+    this.tickBuffer = [];
+
+    if (this.batchTimeout) {
+      clearTimeout(this.batchTimeout);
+      this.batchTimeout = null;
+    }
+
+    this.broadcast(createBatchedTickMessage(ticksToSend));
+  }
+
+  /**
    * Handle tick event
    */
   private handleTick(tick: MarketTick): void {
@@ -145,21 +167,30 @@ export class WSGateway {
       eventBus.emit('metrics', metrics);
     }
 
-    // Broadcast tick to all clients
-    this.broadcast(createTickMessage(tick));
+    // Add to batch buffer
+    this.tickBuffer.push(tick);
+
+    // Flush if batch is full
+    if (this.tickBuffer.length >= this.batchSize) {
+      this.flushTickBuffer();
+    } else if (!this.batchTimeout) {
+      // Set timeout to flush after delay
+      this.batchTimeout = setTimeout(() => {
+        this.flushTickBuffer();
+      }, this.batchDelay);
+    }
   }
 
   /**
    * Broadcast message to all connected clients
    */
-  private broadcast(message: ReturnType<typeof createTickMessage>): void {
-    const serialized = serializeMessage(message);
+  private broadcast(message: string): void {
     const disconnectedClients: string[] = [];
 
     this.clients.forEach((ws, clientId) => {
       if (ws.readyState === WebSocket.OPEN) {
         try {
-          ws.send(serialized);
+          ws.send(message);
         } catch (error) {
           console.error(`Error sending to ${clientId}:`, error);
           disconnectedClients.push(clientId);
@@ -182,7 +213,7 @@ export class WSGateway {
     const ws = this.clients.get(clientId);
     if (ws && ws.readyState === WebSocket.OPEN) {
       const snapshot = createSnapshotMessage(this.recentTicks.slice(0, 100));
-      ws.send(serializeMessage(snapshot));
+      ws.send(snapshot);
     }
   }
 
@@ -194,7 +225,7 @@ export class WSGateway {
     if (ws && ws.readyState === WebSocket.OPEN) {
       if (this.metricsCalculator) {
         const metrics = this.metricsCalculator.calculateMetrics();
-        ws.send(serializeMessage(createMetricsMessage(metrics)));
+        ws.send(createMetricsMessage(metrics));
       }
     }
   }
@@ -211,6 +242,15 @@ export class WSGateway {
    */
   stop(): Promise<void> {
     return new Promise((resolve) => {
+      // Flush any pending ticks
+      this.flushTickBuffer();
+
+      // Clear batch timeout
+      if (this.batchTimeout) {
+        clearTimeout(this.batchTimeout);
+        this.batchTimeout = null;
+      }
+
       // Close all client connections
       this.clients.forEach((ws) => {
         ws.close();
