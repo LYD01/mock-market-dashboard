@@ -7,7 +7,7 @@ export function Footer() {
         <img src="/favicon.webp" alt="" className={styles.favicon} />
         <span className={styles.text}>Built by</span>
         <a
-          href="https://github.com/yourusername"
+          href="https://github.com/LYD01/mock-market-dashboard"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.link}
@@ -17,7 +17,7 @@ export function Footer() {
         </a>
         <span className={styles.separator}>•</span>
         <a
-          href="https://x.com/yourusername"
+          href="https://x.com/dantavius9"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.link}
