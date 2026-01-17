@@ -4,25 +4,47 @@
 .panel {
   background: $bg-secondary;
   border: none;
-  padding: $spacing-xl;
+  padding: $spacing-sm;
   border-radius: 0;
   @include slide-up;
+
+  @include respond-to(sm) {
+    padding: $spacing-md;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-xl;
+  }
 }
 
 .header {
   @include flex-between;
-  margin-bottom: $spacing-xl;
-  padding-bottom: $spacing-md;
+  margin-bottom: $spacing-sm;
+  padding-bottom: $spacing-xs;
   border-bottom: 1px solid $border-subtle;
+
+  @include respond-to(sm) {
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+  }
+
+  @include respond-to(md) {
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+  }
 }
 
 .title {
   font-family: $font-family-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $text-primary;
   margin: 0;
   letter-spacing: -0.01em;
+
+  @include respond-to(sm) {
+    font-size: $font-size-lg;
+  }
 }
 
 .count {
@@ -35,33 +57,67 @@
 
 .chartContainer {
   @include flex-center;
-  gap: $spacing-lg;
-  min-height: 400px;
+  gap: $spacing-xs;
+  min-height: 250px;
+
+  @include respond-to(sm) {
+    gap: $spacing-sm;
+    min-height: 300px;
+  }
+
+  @include respond-to(md) {
+    gap: $spacing-lg;
+    min-height: 400px;
+  }
 }
 
 .yAxis {
   @include flex-column;
   justify-content: space-between;
-  height: 400px;
-  padding-right: $spacing-lg;
-  min-width: 60px;
+  height: 250px;
+  padding-right: $spacing-xs;
+  min-width: 40px;
+
+  @include respond-to(sm) {
+    height: 300px;
+    padding-right: $spacing-sm;
+    min-width: 50px;
+  }
+
+  @include respond-to(md) {
+    height: 400px;
+    padding-right: $spacing-lg;
+    min-width: 60px;
+  }
 }
 
 .yLabel {
   font-family: $font-family-mono;
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-weight: $font-weight-medium;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
 }
 
 .chart {
   flex: 1;
   position: relative;
-  height: 400px;
+  height: 250px;
   background: transparent;
   border: none;
   border-radius: 0;
   overflow: visible;
+
+  @include respond-to(sm) {
+    height: 300px;
+  }
+
+  @include respond-to(md) {
+    height: 400px;
+  }
 }
 
 .svg {
@@ -114,7 +170,17 @@
 
 .empty {
   @include flex-center;
-  padding: $spacing-3xl;
+  padding: $spacing-lg;
   color: $text-tertiary;
-  font-size: $font-size-lg;
+  font-size: $font-size-sm;
+
+  @include respond-to(sm) {
+    padding: $spacing-xl;
+    font-size: $font-size-base;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-3xl;
+    font-size: $font-size-lg;
+  }
 }

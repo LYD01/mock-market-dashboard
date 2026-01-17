@@ -12,7 +12,7 @@ type SortField = 'date' | 'open' | 'high' | 'low' | 'close' | 'volume';
 type SortDirection = 'asc' | 'desc';
 
 const RECORDS_PER_PAGE_OPTIONS = [10, 20, 50] as const;
-const DEFAULT_RECORDS_PER_PAGE = 50;
+const DEFAULT_RECORDS_PER_PAGE = 10;
 
 export function TicksTable({ ticks, dateRange }: TicksTableProps) {
   const [sortField, setSortField] = useState<SortField>('date');

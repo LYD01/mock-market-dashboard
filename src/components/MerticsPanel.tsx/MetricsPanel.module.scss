@@ -34,8 +34,13 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: $spacing-sm;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-xs;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: $spacing-sm;
+  }
 
   @include respond-to(md) {
     grid-template-columns: repeat(6, 1fr);
@@ -44,11 +49,15 @@
 
 .statCard {
   @include flex-column;
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-xs;
   background: transparent;
   border: none;
   border-radius: 0;
   transition: all $transition-fast;
+
+  @include respond-to(sm) {
+    padding: $spacing-xs $spacing-sm;
+  }
 
   &:hover {
     background: rgba($bg-elevated, 0.1);
@@ -67,10 +76,14 @@
 
 .value {
   font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   color: $text-primary;
   line-height: $line-height-tight;
+
+  @include respond-to(sm) {
+    font-size: $font-size-sm;
+  }
 }
 
 .highlight {

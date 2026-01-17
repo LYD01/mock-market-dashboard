@@ -7,6 +7,11 @@
 
 // Responsive Breakpoints
 @mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 479px) {
+      @content;
+    }
+  }
   @if $breakpoint == sm {
     @media (min-width: $breakpoint-sm) {
       @content;
@@ -96,8 +101,16 @@
   background: $bg-tertiary;
   border: $dashboard-border-width solid $border-subtle;
   border-radius: $radius-md;
-  padding: $dashboard-panel-padding;
+  padding: $spacing-sm;
   backdrop-filter: blur(10px);
+
+  @include respond-to(sm) {
+    padding: $spacing-md;
+  }
+
+  @include respond-to(md) {
+    padding: $dashboard-panel-padding;
+  }
 }
 
 @mixin panel-elevated {

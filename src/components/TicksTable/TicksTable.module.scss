@@ -8,11 +8,23 @@
 
 .header {
   @include flex-between;
-  margin-bottom: $spacing-lg;
-  padding-bottom: $spacing-md;
+  margin-bottom: $spacing-sm;
+  padding-bottom: $spacing-xs;
   border-bottom: 1px solid $border-subtle;
-  gap: $spacing-md;
+  gap: $spacing-xs;
   flex-wrap: wrap;
+
+  @include respond-to(sm) {
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    gap: $spacing-sm;
+  }
+
+  @include respond-to(md) {
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    gap: $spacing-md;
+  }
 }
 
 .headerRight {
@@ -23,10 +35,18 @@
 
 .title {
   font-family: $font-family-display;
-  font-size: $font-size-xl;
+  font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: $text-primary;
   margin: 0;
+
+  @include respond-to(sm) {
+    font-size: $font-size-lg;
+  }
+
+  @include respond-to(md) {
+    font-size: $font-size-xl;
+  }
 }
 
 .count {
@@ -44,19 +64,33 @@
   width: 100%;
   border-collapse: collapse;
   font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
+
+  @include respond-to(sm) {
+    font-size: $font-size-sm;
+  }
 }
 
 .th {
-  padding: $spacing-md;
+  padding: $spacing-xs $spacing-xs;
   text-align: left;
   font-weight: $font-weight-semibold;
   color: $text-secondary;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
   border-bottom: 2px solid $border-subtle;
   white-space: nowrap;
+
+  @include respond-to(sm) {
+    padding: $spacing-sm $spacing-xs;
+    font-size: $font-size-xs;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-md;
+    font-size: $font-size-xs;
+  }
 }
 
 .sortable {
@@ -70,9 +104,20 @@
 }
 
 .td {
-  padding: $spacing-md;
+  padding: $spacing-xs $spacing-xs;
   border-bottom: 1px solid $border-subtle;
   color: $text-primary;
+  font-size: $font-size-xs;
+
+  @include respond-to(sm) {
+    padding: $spacing-sm $spacing-xs;
+    font-size: $font-size-sm;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-md;
+    font-size: $font-size-sm;
+  }
 }
 
 .row {
@@ -126,8 +171,16 @@
 
 .empty {
   text-align: center;
-  padding: $spacing-3xl;
+  padding: $spacing-lg;
   color: $text-tertiary;
+
+  @include respond-to(sm) {
+    padding: $spacing-xl;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-3xl;
+  }
 }
 
 .paginationInfo {
@@ -180,24 +233,45 @@
 
 .pagination {
   @include flex-center;
-  gap: $spacing-sm;
-  margin-top: $spacing-xl;
-  padding-top: $spacing-lg;
+  gap: $spacing-xs;
+  margin-top: $spacing-sm;
+  padding-top: $spacing-xs;
   border-top: 1px solid $border-subtle;
   flex-wrap: wrap;
+
+  @include respond-to(sm) {
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+    padding-top: $spacing-sm;
+  }
+
+  @include respond-to(md) {
+    gap: $spacing-sm;
+    margin-top: $spacing-xl;
+    padding-top: $spacing-lg;
+  }
 }
 
 .paginationButton {
-  padding: $spacing-xs $spacing-md;
+  padding: $spacing-xs $spacing-xs;
   background: transparent;
   border: 1px solid $border-subtle;
   border-radius: $radius-sm;
   color: $text-secondary;
   font-family: $font-family-primary;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all $transition-fast;
+
+  @include respond-to(sm) {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-xs $spacing-md;
+  }
 
   &:hover:not(:disabled) {
     color: $text-primary;
@@ -218,18 +292,32 @@
 }
 
 .pageButton {
-  min-width: 36px;
-  height: 36px;
-  padding: 0 $spacing-sm;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 $spacing-xs;
   background: transparent;
   border: 1px solid transparent;
   border-radius: $radius-sm;
   color: $text-secondary;
   font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all $transition-fast;
+
+  @include respond-to(sm) {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 $spacing-xs;
+    font-size: $font-size-xs;
+  }
+
+  @include respond-to(md) {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 $spacing-sm;
+    font-size: $font-size-sm;
+  }
 
   &:hover {
     color: $text-primary;

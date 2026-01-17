@@ -11,20 +11,34 @@
 
 .main {
   flex: 1;
-  padding: $spacing-xl;
+  padding: $spacing-sm;
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: $spacing-md;
+
+  @include respond-to(sm) {
+    padding: $spacing-md;
+    gap: $spacing-lg;
+  }
 
   @include respond-to(lg) {
     padding: $spacing-xl $spacing-2xl;
+    gap: $spacing-lg;
   }
 }
 
 .unifiedView {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
+  gap: $spacing-md;
+
+  @include respond-to(sm) {
+    gap: $spacing-lg;
+  }
+
+  @include respond-to(md) {
+    gap: $spacing-xl;
+  }
 }
 
 .metricsSection {
@@ -47,32 +61,59 @@
 
 .tableSection {
   // Table view below
-  margin-top: $spacing-lg;
+  margin-top: $spacing-sm;
+
+  @include respond-to(sm) {
+    margin-top: $spacing-md;
+  }
+
+  @include respond-to(md) {
+    margin-top: $spacing-lg;
+  }
 }
 
 .aboutSection {
-  margin-top: $spacing-2xl;
-  padding-top: $spacing-xl;
+  margin-top: $spacing-lg;
+  padding-top: $spacing-md;
   border-top: 1px solid $border-subtle;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+
+  @include respond-to(sm) {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-lg;
+  }
+
+  @include respond-to(md) {
+    margin-top: $spacing-2xl;
+    padding-top: $spacing-xl;
+  }
 }
 
 .aboutTitle {
   font-family: $font-family-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $text-primary;
-  margin: 0 0 $spacing-md 0;
+  margin: 0 0 $spacing-sm 0;
   letter-spacing: -0.01em;
+
+  @include respond-to(sm) {
+    font-size: $font-size-lg;
+    margin: 0 0 $spacing-md 0;
+  }
 }
 
 .aboutPlaceholder {
   font-family: $font-family-primary;
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   color: $text-tertiary;
   line-height: $line-height-relaxed;
   margin: 0;
   font-style: italic;
+
+  @include respond-to(sm) {
+    font-size: $font-size-base;
+  }
 }

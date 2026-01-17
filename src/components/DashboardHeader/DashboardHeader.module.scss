@@ -3,14 +3,27 @@
 
 .header {
   @include flex-between;
-  height: $dashboard-header-height;
+  height: auto;
+  min-height: $dashboard-header-height;
   background: $bg-primary;
   backdrop-filter: blur(20px);
   border-bottom: 1px solid $border-subtle;
-  padding: 0 $spacing-xl;
+  padding: $spacing-sm $spacing-sm;
   position: sticky;
   top: 0;
   z-index: $z-sticky;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+
+  @include respond-to(sm) {
+    padding: $spacing-sm $spacing-md;
+    height: $dashboard-header-height;
+    flex-wrap: nowrap;
+  }
+
+  @include respond-to(md) {
+    padding: 0 $spacing-xl;
+  }
 }
 
 .left {
@@ -20,11 +33,19 @@
 
 .title {
   font-family: $font-family-primary;
-  font-size: $font-size-xl;
+  font-size: $font-size-base;
   font-weight: $font-weight-medium;
   color: $text-primary;
   margin: 0;
   letter-spacing: -0.01em;
+
+  @include respond-to(sm) {
+    font-size: $font-size-lg;
+  }
+
+  @include respond-to(md) {
+    font-size: $font-size-xl;
+  }
 }
 
 .subtitle {
@@ -43,27 +64,45 @@
   @include flex-column;
   align-items: flex-end;
   gap: $spacing-xs;
+
+  @include respond-to(mobile) {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  @include respond-to(sm) {
+    align-items: flex-end;
+    width: auto;
+  }
 }
 
 .connectionToggle {
   @include flex-center;
-  gap: $spacing-sm;
+  gap: $spacing-xs;
   margin-bottom: $spacing-xs;
+
+  @include respond-to(sm) {
+    gap: $spacing-sm;
+  }
 }
 
 .toggleLabel {
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-family: $font-family-mono;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: $font-weight-normal;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
 }
 
 .toggleSwitch {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 40px;
+  height: 22px;
   border: none;
   border-radius: $radius-full;
   cursor: pointer;
@@ -71,6 +110,11 @@
   padding: 0;
   background: $bg-tertiary;
   border: 1px solid $border-subtle;
+
+  @include respond-to(sm) {
+    width: 44px;
+    height: 24px;
+  }
 
   &:focus {
     outline: none;
@@ -82,9 +126,15 @@
     border-color: $color-secondary;
 
     .toggleSlider {
-      transform: translateX(20px);
+      transform: translateX(18px);
       background: $color-secondary;
       box-shadow: 0 0 8px $color-secondary-glow;
+    }
+
+    @include respond-to(sm) {
+      .toggleSlider {
+        transform: translateX(20px);
+      }
     }
   }
 
@@ -103,11 +153,16 @@
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: $radius-full;
   transition: all $transition-base;
   background: $text-tertiary;
+
+  @include respond-to(sm) {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .statusIndicator {
@@ -138,13 +193,21 @@
   color: $text-secondary;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
 }
 
 .lastUpdate {
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-family: $font-family-mono;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
 }
 
 .error {

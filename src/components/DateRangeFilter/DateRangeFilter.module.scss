@@ -5,6 +5,7 @@
   @include flex-center;
   gap: $spacing-xs;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .separator {
@@ -15,15 +16,22 @@
 }
 
 .input {
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-xs;
   background: transparent;
   border: none;
   border-bottom: 1px solid $border-subtle;
   color: $text-primary;
   font-family: $font-family-mono;
-  font-size: $font-size-xs;
+  font-size: 0.625rem; // 10px for mobile
   transition: all $transition-fast;
-  min-width: 100px;
+  min-width: 80px;
+  max-width: 100%;
+
+  @include respond-to(sm) {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
+    min-width: 100px;
+  }
 
   &:focus {
     outline: none;
