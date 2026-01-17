@@ -15,7 +15,6 @@ function App() {
   const [connectionEnabled, setConnectionEnabled] = useState<boolean>(true);
   const { ticks, isConnected, error, connect, lastUpdate } = useWebSocket(connectionEnabled);
   const [dateRange, setDateRange] = useState<DateRange | null>(null);
-  const [viewMode, setViewMode] = useState<'table' | 'timeseries' | 'metrics'>('timeseries');
 
   const availableDates = useMemo(() => {
     const dates = new Set(ticks.map((tick) => tick.date));
@@ -36,48 +35,30 @@ function App() {
       />
 
       <main className={styles.main}>
-        <div className={styles.controls}>
-          <div className={styles.viewToggle}>
-            <button
-              className={`${styles.toggleButton} ${viewMode === 'metrics' ? styles.active : ''}`}
-              onClick={() => setViewMode('metrics')}
-              disabled={isLoading}
-            >
-              Metrics
-            </button>
-            <button
-              className={`${styles.toggleButton} ${viewMode === 'timeseries' ? styles.active : ''}`}
-              onClick={() => setViewMode('timeseries')}
-              disabled={isLoading}
-            >
-              Time Series
-            </button>
-            <button
-              className={`${styles.toggleButton} ${viewMode === 'table' ? styles.active : ''}`}
-              onClick={() => setViewMode('table')}
-              disabled={isLoading}
-            >
-              Table
-            </button>
+        <div className={styles.unifiedView}>
+          {/* Metrics Panel - Compact at top */}
+          <div className={styles.metricsSection}>
+            <div className={styles.metricsHeader}>
+              {!isLoading && <DateRangeFilter onRangeChange={setDateRange} availableDates={availableDates} />}
+            </div>
+            {isLoading ? <MetricsPanelSkeleton /> : <MetricsPanel ticks={ticks} lastUpdate={lastUpdate} />}
           </div>
 
-          {!isLoading && <DateRangeFilter onRangeChange={setDateRange} availableDates={availableDates} />}
-        </div>
+          {/* Time Series View - Front and center */}
+          <div className={styles.timeseriesSection}>
+            {isLoading ? <TimeSeriesViewSkeleton /> : <TimeSeriesView ticks={ticks} dateRange={dateRange} />}
+          </div>
 
-        <div className={styles.content}>
-          {isLoading ? (
-            <>
-              {viewMode === 'metrics' && <MetricsPanelSkeleton />}
-              {viewMode === 'timeseries' && <TimeSeriesViewSkeleton />}
-              {viewMode === 'table' && <TicksTableSkeleton />}
-            </>
-          ) : (
-            <>
-              {viewMode === 'metrics' && <MetricsPanel ticks={ticks} lastUpdate={lastUpdate} />}
-              {viewMode === 'timeseries' && <TimeSeriesView ticks={ticks} dateRange={dateRange} />}
-              {viewMode === 'table' && <TicksTable ticks={ticks} dateRange={dateRange} />}
-            </>
-          )}
+          {/* Table View - Below, scrollable */}
+          <div className={styles.tableSection}>
+            {isLoading ? <TicksTableSkeleton /> : <TicksTable ticks={ticks} dateRange={dateRange} />}
+          </div>
+
+          {/* Placeholder text section */}
+          <div className={styles.aboutSection}>
+            <h2 className={styles.aboutTitle}>About This Project</h2>
+            <p className={styles.aboutPlaceholder}>[Placeholder text - to be updated with project description]</p>
+          </div>
         </div>
       </main>
     </div>

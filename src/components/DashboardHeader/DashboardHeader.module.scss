@@ -4,7 +4,7 @@
 .header {
   @include flex-between;
   height: $dashboard-header-height;
-  background: rgba($bg-primary, 0.95);
+  background: $bg-primary;
   backdrop-filter: blur(20px);
   border-bottom: 1px solid $border-subtle;
   padding: 0 $spacing-xl;
@@ -19,19 +19,20 @@
 }
 
 .title {
-  font-family: $font-family-display;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
+  font-family: $font-family-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
   color: $text-primary;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   color: $text-tertiary;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
+  font-family: $font-family-mono;
 }
 
 .right {
@@ -47,7 +48,6 @@
 .connectionToggle {
   @include flex-center;
   gap: $spacing-sm;
-  margin-top: $spacing-md;
   margin-bottom: $spacing-xs;
 }
 
@@ -57,6 +57,7 @@
   font-family: $font-family-mono;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-weight: $font-weight-normal;
 }
 
 .toggleSwitch {

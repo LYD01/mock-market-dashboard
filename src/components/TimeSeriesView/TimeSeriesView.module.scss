@@ -2,182 +2,114 @@
 @use '../../styles/abstracts/mixins' as *;
 
 .panel {
-  @include panel;
+  background: $bg-secondary;
+  border: none;
+  padding: $spacing-xl;
+  border-radius: 0;
   @include slide-up;
 }
 
 .header {
   @include flex-between;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $spacing-xl;
   padding-bottom: $spacing-md;
   border-bottom: 1px solid $border-subtle;
 }
 
 .title {
-  font-family: $font-family-display;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
+  font-family: $font-family-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
   color: $text-primary;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .count {
   font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   color: $text-tertiary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .chartContainer {
   @include flex-center;
-  gap: $spacing-md;
-  margin-bottom: $spacing-xl;
-  min-height: 300px;
+  gap: $spacing-lg;
+  min-height: 400px;
 }
 
 .yAxis {
   @include flex-column;
   justify-content: space-between;
-  height: 300px;
-  padding-right: $spacing-md;
+  height: 400px;
+  padding-right: $spacing-lg;
+  min-width: 60px;
 }
 
 .yLabel {
   font-family: $font-family-mono;
   font-size: $font-size-xs;
   color: $text-tertiary;
+  font-weight: $font-weight-medium;
 }
 
 .chart {
   flex: 1;
   position: relative;
-  height: 300px;
-  background: rgba($bg-elevated, 0.3);
-  border: 1px solid $border-subtle;
-  border-radius: $radius-md;
-  overflow: hidden;
+  height: 400px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
 }
 
 .svg {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 .gridLine {
-  stroke: $border-subtle;
+  stroke: rgba(255, 255, 255, 0.08);
   stroke-width: 0.5;
 }
 
-.priceLine {
-  stroke: $color-primary;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 4px $color-primary-glow);
-}
+// Candlestick Styles
+.candleBullish {
+  .wick {
+    stroke: $candle-bullish-wick;
+    stroke-width: $candle-wick-width;
+    opacity: 0.8;
+  }
 
-.rangeLine {
-  stroke: rgba($color-primary, 0.3);
-  stroke-width: 1;
-}
-
-.ticksList {
-  @include flex-column;
-  gap: $spacing-sm;
-  max-height: 400px;
-  overflow-y: auto;
-  @include scrollbar-thin;
-}
-
-.tickItem {
-  @include flex-between;
-  padding: $spacing-md;
-  background: rgba($bg-elevated, 0.3);
-  border: 1px solid $border-subtle;
-  border-radius: $radius-sm;
-  transition: all $transition-fast;
-  gap: $spacing-md;
-
-  &:hover {
-    border-color: $border-primary;
-    background: rgba($bg-elevated, 0.5);
+  .candleBody {
+    fill: $candle-bullish-body;
+    stroke: $candle-bullish-color;
+    stroke-width: $candle-body-stroke;
   }
 }
 
-.tickDate {
-  @include flex-column;
-  min-width: 120px;
+.candleBearish {
+  .wick {
+    stroke: $candle-bearish-wick;
+    stroke-width: $candle-wick-width;
+    opacity: 0.8;
+  }
+
+  .candleBody {
+    fill: $candle-bearish-body;
+    stroke: $candle-bearish-color;
+    stroke-width: $candle-body-stroke;
+  }
 }
 
-.date {
-  font-family: $font-family-mono;
-  font-size: $font-size-sm;
-  color: $text-primary;
-  font-weight: $font-weight-medium;
+.wick {
+  transition: opacity $transition-fast;
 }
 
-.time {
-  font-family: $font-family-mono;
-  font-size: $font-size-xs;
-  color: $text-tertiary;
-}
-
-.tickPrices {
-  @include flex-center;
-  gap: $spacing-md;
-  flex-wrap: wrap;
-  flex: 1;
-}
-
-.priceGroup {
-  @include flex-center;
-  gap: $spacing-xs;
-}
-
-.priceLabel {
-  font-family: $font-family-mono;
-  font-size: $font-size-xs;
-  color: $text-tertiary;
-  text-transform: uppercase;
-}
-
-.priceValue {
-  font-family: $font-family-mono;
-  font-size: $font-size-sm;
-  color: $text-primary;
-  font-weight: $font-weight-medium;
-}
-
-.high {
-  color: $color-secondary;
-}
-
-.low {
-  color: $color-danger;
-}
-
-.up {
-  color: $color-secondary;
-}
-
-.down {
-  color: $color-danger;
-}
-
-.tickMeta {
-  @include flex-column;
-  align-items: flex-end;
-  gap: $spacing-xs;
-  min-width: 150px;
-}
-
-.volume {
-  font-family: $font-family-mono;
-  font-size: $font-size-xs;
-  color: $text-tertiary;
-}
-
-.change {
-  font-family: $font-family-mono;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
+.candleBody {
+  transition: opacity $transition-fast;
 }
 
 .empty {

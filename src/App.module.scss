@@ -14,68 +14,65 @@
   padding: $spacing-xl;
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
-
-  @include respond-to(lg) {
-    padding: $spacing-2xl;
-  }
-}
-
-.controls {
-  display: flex;
-  flex-direction: column;
   gap: $spacing-lg;
 
-  @include respond-to(md) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
+  @include respond-to(lg) {
+    padding: $spacing-xl $spacing-2xl;
   }
 }
 
-.viewToggle {
-  display: flex;
-  gap: $spacing-sm;
-  background: $bg-tertiary;
-  padding: $spacing-xs;
-  border-radius: $radius-md;
-  border: 1px solid $border-subtle;
-}
-
-.toggleButton {
-  padding: $spacing-sm $spacing-lg;
-  background: transparent;
-  border: none;
-  border-radius: $radius-sm;
-  color: $text-secondary;
-  font-family: $font-family-mono;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all $transition-fast;
-
-  &:hover:not(:disabled) {
-    color: $text-primary;
-    background: rgba($bg-elevated, 0.5);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &.active {
-    background: rgba($color-primary, 0.2);
-    color: $color-primary;
-    border: 1px solid rgba($color-primary, 0.3);
-    box-shadow: 0 0 8px rgba($color-primary, 0.2);
-  }
-}
-
-.content {
-  flex: 1;
+.unifiedView {
   display: flex;
   flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.metricsSection {
+  // Compact metrics at the top, positioned above time series
+  position: relative;
+  z-index: 1;
+}
+
+.metricsHeader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-sm;
+  padding-bottom: $spacing-xs;
+}
+
+.timeseriesSection {
+  // Time Series front and center
+  flex: 1;
+}
+
+.tableSection {
+  // Table view below
+  margin-top: $spacing-lg;
+}
+
+.aboutSection {
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $border-subtle;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aboutTitle {
+  font-family: $font-family-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  letter-spacing: -0.01em;
+}
+
+.aboutPlaceholder {
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  color: $text-tertiary;
+  line-height: $line-height-relaxed;
+  margin: 0;
+  font-style: italic;
 }

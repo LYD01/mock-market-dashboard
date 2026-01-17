@@ -128,3 +128,13 @@ $dashboard-header-height: 4rem;
 $dashboard-panel-padding: $spacing-lg;
 $dashboard-border-width: 1px;
 $dashboard-glow-intensity: 0.3;
+
+// Candlestick Chart Specific
+$candle-bullish-color: $color-secondary; // Green for up candles
+$candle-bullish-body: rgba($color-secondary, 0.8);
+$candle-bullish-wick: $color-secondary;
+$candle-bearish-color: $color-danger; // Red for down candles
+$candle-bearish-body: rgba($color-danger, 0.8);
+$candle-bearish-wick: $color-danger;
+$candle-wick-width: 1.5px;
+$candle-body-stroke: 1px;

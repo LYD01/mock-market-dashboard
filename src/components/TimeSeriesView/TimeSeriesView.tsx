@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import type { MarketTick, DateRange } from '../../types/market';
-import { formatDateShort } from '../../utils/date';
 import styles from './TimeSeriesView.module.scss';
 
 interface TimeSeriesViewProps {
@@ -18,8 +17,8 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
   }, [ticks, dateRange]);
 
   const displayTicks = useMemo(() => {
-    // Limit to last 50 for performance
-    return filteredTicks.slice(0, 50);
+    // Limit to last 100 for better candlestick visualization
+    return filteredTicks.slice(0, 100).reverse(); // Reverse to show oldest to newest
   }, [filteredTicks]);
 
   const maxPrice = useMemo(() => {
@@ -33,9 +32,19 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
   }, [displayTicks]);
 
   const priceRange = maxPrice - minPrice || 1;
+  const padding = 0.05; // 5% padding on top and bottom
+
+  const chartDimensions = useMemo(() => {
+    const chartHeight = 400;
+    const chartWidth = 1000;
+    const candleWidth = displayTicks.length > 0 ? (chartWidth / displayTicks.length) * 0.7 : 10; // 70% of available space for candle body
+    const candleSpacing = displayTicks.length > 0 ? chartWidth / displayTicks.length : 10;
+    return { chartHeight, chartWidth, candleWidth, candleSpacing };
+  }, [displayTicks.length]);
 
   const getPricePosition = (price: number) => {
-    return ((price - minPrice) / priceRange) * 100;
+    const normalizedPrice = (price - minPrice) / priceRange;
+    return (1 - normalizedPrice) * (1 - 2 * padding) + padding; // Invert Y-axis and add padding
   };
 
   if (displayTicks.length === 0) {
@@ -66,82 +75,49 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
         </div>
 
         <div className={styles.chart}>
-          <svg className={styles.svg} viewBox="0 0 1000 300" preserveAspectRatio="none">
-            {/* Grid lines */}
-            {[0, 25, 50, 75, 100].map((y) => (
-              <line key={y} x1="0" y1={y} x2="1000" y2={y} className={styles.gridLine} />
-            ))}
+          <svg
+            className={styles.svg}
+            viewBox={`0 0 ${chartDimensions.chartWidth} ${chartDimensions.chartHeight}`}
+            preserveAspectRatio="xMidYMid meet"
+          >
+            {/* Grid lines - horizontal lines at regular intervals */}
+            {Array.from({ length: 11 }, (_, i) => i / 10).map((ratio) => {
+              const y = chartDimensions.chartHeight * ratio;
+              return (
+                <line key={ratio} x1="0" y1={y} x2={chartDimensions.chartWidth} y2={y} className={styles.gridLine} />
+              );
+            })}
 
-            {/* Price line */}
-            <polyline
-              points={displayTicks
-                .map(
-                  (tick, i) =>
-                    `${(i / (displayTicks.length - 1 || 1)) * 1000},${
-                      300 - (getPricePosition(tick.close) / 100) * 300
-                    }`,
-                )
-                .join(' ')}
-              className={styles.priceLine}
-              fill="none"
-            />
-
-            {/* High/Low range */}
+            {/* Candlesticks */}
             {displayTicks.map((tick, i) => {
-              const x = (i / (displayTicks.length - 1 || 1)) * 1000;
-              const highY = 300 - (getPricePosition(tick.high) / 100) * 300;
-              const lowY = 300 - (getPricePosition(tick.low) / 100) * 300;
-              return <line key={i} x1={x} y1={highY} x2={x} y2={lowY} className={styles.rangeLine} />;
+              const isBullish = tick.close >= tick.open;
+              const x = i * chartDimensions.candleSpacing + chartDimensions.candleSpacing / 2;
+              const highY = getPricePosition(tick.high) * chartDimensions.chartHeight;
+              const lowY = getPricePosition(tick.low) * chartDimensions.chartHeight;
+              const openY = getPricePosition(tick.open) * chartDimensions.chartHeight;
+              const closeY = getPricePosition(tick.close) * chartDimensions.chartHeight;
+
+              const bodyTop = Math.min(openY, closeY);
+              const bodyBottom = Math.max(openY, closeY);
+              const bodyHeight = Math.max(bodyBottom - bodyTop, 1); // Minimum 1px height
+
+              return (
+                <g key={`${tick.date}-${i}`} className={isBullish ? styles.candleBullish : styles.candleBearish}>
+                  {/* Wick (high-low line) */}
+                  <line x1={x} y1={highY} x2={x} y2={lowY} className={styles.wick} />
+                  {/* Body (open-close rectangle) */}
+                  <rect
+                    x={x - chartDimensions.candleWidth / 2}
+                    y={bodyTop}
+                    width={chartDimensions.candleWidth}
+                    height={bodyHeight}
+                    className={styles.candleBody}
+                  />
+                </g>
+              );
             })}
           </svg>
         </div>
-      </div>
-
-      <div className={styles.ticksList}>
-        {displayTicks.map((tick, index) => {
-          const change = index > 0 ? tick.close - displayTicks[index - 1].close : 0;
-          const changePercent =
-            index > 0 && displayTicks[index - 1].close !== 0 ? (change / displayTicks[index - 1].close) * 100 : 0;
-
-          return (
-            <div key={`${tick.date}-${index}`} className={styles.tickItem}>
-              <div className={styles.tickDate}>
-                <div className={styles.date}>{formatDateShort(tick.date)}</div>
-                {tick.time && <div className={styles.time}>{tick.time}</div>}
-              </div>
-              <div className={styles.tickPrices}>
-                <div className={styles.priceGroup}>
-                  <span className={styles.priceLabel}>O:</span>
-                  <span className={styles.priceValue}>${tick.open.toFixed(2)}</span>
-                </div>
-                <div className={styles.priceGroup}>
-                  <span className={styles.priceLabel}>H:</span>
-                  <span className={`${styles.priceValue} ${styles.high}`}>${tick.high.toFixed(2)}</span>
-                </div>
-                <div className={styles.priceGroup}>
-                  <span className={styles.priceLabel}>L:</span>
-                  <span className={`${styles.priceValue} ${styles.low}`}>${tick.low.toFixed(2)}</span>
-                </div>
-                <div className={styles.priceGroup}>
-                  <span className={styles.priceLabel}>C:</span>
-                  <span className={`${styles.priceValue} ${change >= 0 ? styles.up : styles.down}`}>
-                    ${tick.close.toFixed(2)}
-                  </span>
-                </div>
-              </div>
-              <div className={styles.tickMeta}>
-                <div className={styles.volume}>Vol: {tick.volume.toLocaleString()}</div>
-                {index > 0 && (
-                  <div className={`${styles.change} ${change >= 0 ? styles.up : styles.down}`}>
-                    {change >= 0 ? '+' : ''}
-                    {change.toFixed(2)} ({changePercent >= 0 ? '+' : ''}
-                    {changePercent.toFixed(2)}%)
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

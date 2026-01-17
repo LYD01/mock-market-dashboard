@@ -52,42 +52,32 @@ export function DateRangeFilter({ onRangeChange, availableDates }: DateRangeFilt
 
   return (
     <div className={styles.filter}>
-      <div className={styles.label}>Date Range</div>
-      <div className={styles.inputs}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="start-date" className={styles.inputLabel}>
-            Start
-          </label>
-          <input
-            id="start-date"
-            type="date"
-            value={startDate}
-            min={minDate}
-            max={maxDate}
-            onChange={(e) => handleStartChange(e.target.value)}
-            className={styles.input}
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="end-date" className={styles.inputLabel}>
-            End
-          </label>
-          <input
-            id="end-date"
-            type="date"
-            value={endDate}
-            min={minDate}
-            max={maxDate}
-            onChange={(e) => handleEndChange(e.target.value)}
-            className={styles.input}
-          />
-        </div>
-        {(startDate || endDate) && (
-          <button onClick={handleClear} className={styles.clearButton}>
-            Clear
-          </button>
-        )}
-      </div>
+      <input
+        id="start-date"
+        type="date"
+        value={startDate}
+        min={minDate}
+        max={maxDate}
+        onChange={(e) => handleStartChange(e.target.value)}
+        className={styles.input}
+        placeholder="Start"
+      />
+      <span className={styles.separator}>→</span>
+      <input
+        id="end-date"
+        type="date"
+        value={endDate}
+        min={minDate}
+        max={maxDate}
+        onChange={(e) => handleEndChange(e.target.value)}
+        className={styles.input}
+        placeholder="End"
+      />
+      {(startDate || endDate) && (
+        <button onClick={handleClear} className={styles.clearButton} aria-label="Clear date range">
+          ×
+        </button>
+      )}
     </div>
   );
 }

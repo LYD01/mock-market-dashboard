@@ -11,6 +11,14 @@
   margin-bottom: $spacing-lg;
   padding-bottom: $spacing-md;
   border-bottom: 1px solid $border-subtle;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.headerRight {
+  @include flex-center;
+  gap: $spacing-lg;
+  flex-wrap: wrap;
 }
 
 .title {
@@ -120,4 +128,125 @@
   text-align: center;
   padding: $spacing-3xl;
   color: $text-tertiary;
+}
+
+.paginationInfo {
+  color: $text-tertiary;
+  font-weight: $font-weight-normal;
+}
+
+.recordsPerPageSelector {
+  @include flex-center;
+  gap: $spacing-xs;
+}
+
+.recordsPerPageLabel {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.recordsPerPageSelect {
+  padding: $spacing-xs $spacing-sm;
+  background: transparent;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-primary;
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+  min-width: 60px;
+
+  &:hover {
+    border-color: $border-primary;
+    background: rgba($bg-elevated, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  option {
+    background: $bg-secondary;
+    color: $text-primary;
+  }
+}
+
+.pagination {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-subtle;
+  flex-wrap: wrap;
+}
+
+.paginationButton {
+  padding: $spacing-xs $spacing-md;
+  background: transparent;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-family: $font-family-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+    border-color: $border-primary;
+    background: rgba($bg-elevated, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.pageNumbers {
+  @include flex-center;
+  gap: $spacing-xs;
+  flex-wrap: wrap;
+}
+
+.pageButton {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 $spacing-sm;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($bg-elevated, 0.2);
+    border-color: $border-subtle;
+  }
+
+  &.active {
+    color: $text-primary;
+    background: rgba($color-primary, 0.1);
+    border-color: rgba($color-primary, 0.3);
+  }
+}
+
+.ellipsis {
+  padding: 0 $spacing-xs;
+  color: $text-tertiary;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
 }
