@@ -1,0 +1,67 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.panel {
+  @include panel;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.titleSkeleton {
+  @include skeleton;
+  width: 120px;
+  height: 24px;
+}
+
+.countSkeleton {
+  @include skeleton;
+  width: 100px;
+  height: 20px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  @include scrollbar-thin($color-primary, $bg-secondary);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  padding: $spacing-md;
+  text-align: left;
+  border-bottom: 1px solid $border-subtle;
+  background: $bg-elevated;
+}
+
+.thSkeleton {
+  @include skeleton;
+  width: 80px;
+  height: 16px;
+}
+
+.row {
+  border-bottom: 1px solid $border-subtle;
+
+  &:hover {
+    background: rgba($bg-elevated, 0.3);
+  }
+}
+
+.td {
+  padding: $spacing-md;
+}
+
+.cellSkeleton {
+  @include skeleton;
+  width: 100%;
+  height: 16px;
+  max-width: 120px;
+}

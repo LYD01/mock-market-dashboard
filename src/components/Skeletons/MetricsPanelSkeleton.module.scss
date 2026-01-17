@@ -1,0 +1,60 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.panel {
+  @include panel;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xl;
+}
+
+.titleSkeleton {
+  @include skeleton;
+  width: 150px;
+  height: 24px;
+}
+
+.timestampSkeleton {
+  @include skeleton;
+  width: 120px;
+  height: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-lg;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.statCard {
+  @include panel;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  background: $bg-elevated;
+}
+
+.labelSkeleton {
+  @include skeleton;
+  width: 100px;
+  height: 14px;
+}
+
+.valueSkeleton {
+  @include skeleton;
+  width: 120px;
+  height: 32px;
+}

@@ -13,7 +13,7 @@ export interface UseWebSocketReturn {
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 
-export function useWebSocket(): UseWebSocketReturn {
+export function useWebSocket(enabled: boolean = true): UseWebSocketReturn {
   const [ticks, setTicks] = useState<MarketTick[]>([]);
   const [metrics, setMetrics] = useState<MarketMetrics | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -28,6 +28,12 @@ export function useWebSocket(): UseWebSocketReturn {
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       return;
+    }
+
+    // Clear any existing connection timeout
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
     }
 
     try {
@@ -80,13 +86,15 @@ export function useWebSocket(): UseWebSocketReturn {
         setIsConnected(false);
         wsRef.current = null;
 
-        // Attempt to reconnect
-        if (reconnectAttempts.current < maxReconnectAttempts) {
+        // Attempt to reconnect only if enabled
+        if (enabled && reconnectAttempts.current < maxReconnectAttempts) {
           reconnectAttempts.current += 1;
           const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
           reconnectTimeoutRef.current = window.setTimeout(() => {
             connect();
           }, delay);
+        } else if (!enabled) {
+          reconnectAttempts.current = 0;
         } else {
           setError('Max reconnection attempts reached');
         }
@@ -95,7 +103,7 @@ export function useWebSocket(): UseWebSocketReturn {
       setError('Failed to create WebSocket connection');
       console.error('WebSocket connection error:', err);
     }
-  }, []);
+  }, [enabled]);
 
   const disconnect = useCallback(() => {
     if (reconnectTimeoutRef.current) {
@@ -110,12 +118,21 @@ export function useWebSocket(): UseWebSocketReturn {
   }, []);
 
   useEffect(() => {
+    if (!enabled) {
+      // If disabled, disconnect and clear any pending connections
+      disconnect();
+      return;
+    }
+
+    // Disconnect first if already connected
+    disconnect();
+    // Then connect
     connect();
 
     return () => {
       disconnect();
     };
-  }, [connect, disconnect]);
+  }, [enabled, connect, disconnect]);
 
   return {
     ticks,

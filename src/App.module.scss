@@ -56,9 +56,14 @@
   cursor: pointer;
   transition: all $transition-fast;
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: $text-primary;
     background: rgba($bg-elevated, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &.active {

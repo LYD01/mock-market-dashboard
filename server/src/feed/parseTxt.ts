@@ -43,8 +43,8 @@ export async function parseStockFile(filePath: string): Promise<ParsedStockRow[]
           return value;
         }
         // Convert numeric columns
-        if (['Open', 'High', 'Low', 'Close', 'Volume', 'OpenInt'].includes(context.column)) {
-          return parseFloat(value) || 0;
+        if (context.column && ['Open', 'High', 'Low', 'Close', 'Volume', 'OpenInt'].includes(String(context.column))) {
+          return parseFloat(String(value)) || 0;
         }
         return value;
       },

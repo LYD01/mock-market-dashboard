@@ -44,6 +44,71 @@
   gap: $spacing-xs;
 }
 
+.connectionToggle {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  margin-bottom: $spacing-xs;
+}
+
+.toggleLabel {
+  font-size: $font-size-xs;
+  color: $text-tertiary;
+  font-family: $font-family-mono;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border: none;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: all $transition-base;
+  padding: 0;
+  background: $bg-tertiary;
+  border: 1px solid $border-subtle;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.3);
+  }
+
+  &.enabled {
+    background: rgba($color-secondary, 0.2);
+    border-color: $color-secondary;
+
+    .toggleSlider {
+      transform: translateX(20px);
+      background: $color-secondary;
+      box-shadow: 0 0 8px $color-secondary-glow;
+    }
+  }
+
+  &.disabled {
+    background: $bg-tertiary;
+    border-color: $border-subtle;
+
+    .toggleSlider {
+      transform: translateX(2px);
+      background: $text-tertiary;
+    }
+  }
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: $radius-full;
+  transition: all $transition-base;
+  background: $text-tertiary;
+}
+
 .statusIndicator {
   @include flex-center;
   gap: $spacing-sm;

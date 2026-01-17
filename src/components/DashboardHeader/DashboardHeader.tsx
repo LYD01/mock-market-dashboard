@@ -6,9 +6,18 @@ interface DashboardHeaderProps {
   lastUpdate: Date | null;
   error: string | null;
   onReconnect: () => void;
+  connectionEnabled: boolean;
+  onConnectionToggle: (enabled: boolean) => void;
 }
 
-export function DashboardHeader({ isConnected, lastUpdate, error, onReconnect }: DashboardHeaderProps) {
+export function DashboardHeader({
+  isConnected,
+  lastUpdate,
+  error,
+  onReconnect,
+  connectionEnabled,
+  onConnectionToggle,
+}: DashboardHeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
@@ -18,6 +27,21 @@ export function DashboardHeader({ isConnected, lastUpdate, error, onReconnect }:
 
       <div className={styles.right}>
         <div className={styles.status}>
+          <div className={styles.connectionToggle}>
+            <label htmlFor="connection-toggle" className={styles.toggleLabel}>
+              Simulate Disconnect:
+            </label>
+            <button
+              id="connection-toggle"
+              type="button"
+              onClick={() => onConnectionToggle(!connectionEnabled)}
+              className={`${styles.toggleSwitch} ${connectionEnabled ? styles.enabled : styles.disabled}`}
+              aria-label={connectionEnabled ? 'Disable connection' : 'Enable connection'}
+            >
+              <span className={styles.toggleSlider} />
+            </button>
+          </div>
+
           <div className={`${styles.statusIndicator} ${isConnected ? styles.connected : styles.disconnected}`}>
             <span className={styles.statusDot} />
             <span className={styles.statusText}>{isConnected ? 'Connected' : 'Disconnected'}</span>
