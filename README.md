@@ -103,20 +103,79 @@ For more information about the server setup, see the [server README](./server/RE
 
 ```
 ├── src/
-│   ├── components/     # React components
-│   ├── hooks/          # Custom React hooks
-│   │   ├── useWebSocket.ts  # WebSocket data hook
-│   │   └── useMockData.ts   # Mock data hook
-│   ├── mock/           # Mock CSV data files
-│   │   ├── stocks/     # Stock data files
-│   │   └── etfs/       # ETF data files
-│   ├── config/         # Configuration files
-│   │   └── dataSource.ts    # Data source switch
-│   ├── utils/          # Utility functions
-│   │   └── csvParser.ts     # CSV parsing utility
-│   └── types/          # TypeScript type definitions
-├── server/             # WebSocket server (optional)
-└── public/             # Static assets
+│   ├── components/              # React components
+│   │   ├── About/              # About page component
+│   │   ├── BackToTop/          # Back to top button component
+│   │   ├── DashboardHeader/    # Dashboard header component
+│   │   ├── DataProcessingTimeline/  # Data processing timeline component
+│   │   ├── DateRangeFilter/    # Date range filter component
+│   │   ├── Footer/             # Footer component
+│   │   ├── MerticsPanel.tsx/   # Metrics panel component
+│   │   ├── Skeletons/          # Loading skeleton components
+│   │   ├── TicksTable/         # Ticks table component
+│   │   └── TimeSeriesView/     # Time series chart component
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useWebSocket.ts     # WebSocket data hook
+│   │   └── useMockData.ts      # Mock data hook
+│   ├── mock/                   # Mock data files
+│   │   ├── stocks/             # Stock data files (.txt)
+│   │   └── etfs/               # ETF data files (.txt)
+│   ├── config/                 # Configuration files
+│   │   └── dataSource.ts       # Data source switch
+│   ├── utils/                  # Utility functions
+│   │   ├── csvParser.ts        # CSV parsing utility
+│   │   └── date.ts             # Date utility functions
+│   ├── types/                  # TypeScript type definitions
+│   │   └── market.ts           # Market data types
+│   ├── styles/                 # Global SCSS styles
+│   │   ├── abstracts/          # SCSS abstracts (variables, mixins, functions)
+│   │   ├── base/               # Base styles (reset, typography, global)
+│   │   ├── components/         # Component-specific styles
+│   │   ├── layout/             # Layout styles
+│   │   ├── themes/             # Theme styles (light/dark)
+│   │   └── main.scss           # Main stylesheet entry
+│   ├── App.tsx                 # Main App component
+│   ├── App.css                 # App styles
+│   ├── App.module.scss         # App module styles
+│   ├── main.tsx                # Application entry point
+│   ├── index.css               # Global CSS
+│   └── vite-env.d.ts           # Vite type definitions
+├── server/                     # WebSocket server (optional)
+│   ├── src/
+│   │   ├── bus/                # Event bus
+│   │   │   └── eventBus.ts
+│   │   ├── feed/               # Data feed processing
+│   │   │   ├── normalize.ts    # Data normalization
+│   │   │   ├── parseTxt.ts     # Text file parsing
+│   │   │   └── replay.ts       # Data replay logic
+│   │   ├── metrics/            # Metrics calculation
+│   │   │   └── stats.ts        # Statistics utilities
+│   │   ├── utils/              # Server utilities
+│   │   │   └── logger.ts       # Logging utility
+│   │   ├── ws/                 # WebSocket implementation
+│   │   │   ├── protocol.ts     # WebSocket protocol
+│   │   │   └── wsGateway.ts    # WebSocket gateway
+│   │   ├── config.ts           # Server configuration
+│   │   └── index.ts            # Server entry point
+│   ├── bunfig.toml             # Bun configuration
+│   └── README.md               # Server documentation
+├── public/                     # Static assets
+│   ├── favicon.webp            # Favicon
+│   └── robots.txt              # Robots.txt
+├── .husky/                     # Git hooks
+│   └── pre-commit              # Pre-commit hook
+├── eslint.config.js            # ESLint configuration
+├── tsconfig.json               # TypeScript configuration
+├── tsconfig.app.json           # TypeScript app config
+├── tsconfig.node.json          # TypeScript node config
+├── tsconfig.server.json        # TypeScript server config
+├── vite.config.ts              # Vite configuration
+├── package.json                # Dependencies and scripts
+├── .prettierrc                 # Prettier configuration
+├── .prettierignore             # Prettier ignore rules
+├── .gitignore                  # Git ignore rules
+├── bun.lock                    # Bun lock file
+└── index.html                  # HTML entry point
 ```
 
 ## Configuration
