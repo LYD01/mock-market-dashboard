@@ -35,3 +35,11 @@ export interface DateRange {
   start: Date;
   end: Date;
 }
+
+export interface DataProcessingProgress {
+  totalTicks: number;
+  processedTicks: number;
+  progressPercent: number;
+  dateRange: { start: string; end: string } | null;
+  availableDates: string[];
+}

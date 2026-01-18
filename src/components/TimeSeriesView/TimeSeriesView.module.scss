@@ -161,11 +161,30 @@
 }
 
 .wick {
-  transition: opacity $transition-fast;
+  transition:
+    opacity $transition-base,
+    stroke-opacity 0.25s ease-out;
+  will-change: opacity;
 }
 
 .candleBody {
-  transition: opacity $transition-fast;
+  transition:
+    opacity $transition-base,
+    fill-opacity 0.25s ease-out;
+  will-change: opacity, fill-opacity;
+}
+
+// Smooth chart updates - prevent jarring transitions
+.chart {
+  transition: opacity 0.2s ease-out;
+  will-change: contents;
+}
+
+.svg {
+  // Enable hardware acceleration for smoother rendering
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .empty {

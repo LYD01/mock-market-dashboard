@@ -1,11 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useWebSocket } from './hooks/useWebSocket';
+import { useMockData } from './hooks/useMockData';
+import { DATA_SOURCE } from './config/dataSource';
 import { DashboardHeader } from './components/DashboardHeader/DashboardHeader';
 import { About } from './components/About/About';
 import { MetricsPanel } from './components/MerticsPanel.tsx/MetricsPanel';
 import { TimeSeriesView } from './components/TimeSeriesView/TimeSeriesView';
 import { TicksTable } from './components/TicksTable/TicksTable';
 import { DateRangeFilter } from './components/DateRangeFilter/DateRangeFilter';
+import { DataProcessingTimeline } from './components/DataProcessingTimeline/DataProcessingTimeline';
 import { MetricsPanelSkeleton } from './components/Skeletons/MetricsPanelSkeleton';
 import { TimeSeriesViewSkeleton } from './components/Skeletons/TimeSeriesViewSkeleton';
 import { TicksTableSkeleton } from './components/Skeletons/TicksTableSkeleton';
@@ -15,7 +18,13 @@ import type { DateRange } from './types/market';
 import styles from './App.module.scss';
 
 function App() {
-  const { ticks, isConnected, error, connect, lastUpdate } = useWebSocket();
+  // Use mock data by default, or websocket if configured
+  const mockData = useMockData(DATA_SOURCE === 'mock');
+  const wsData = useWebSocket(DATA_SOURCE === 'websocket');
+
+  // Select the active data source
+  const { ticks, isConnected, error, connect, lastUpdate, progress } = DATA_SOURCE === 'mock' ? mockData : wsData;
+
   const [dateRange, setDateRange] = useState<DateRange | null>(null);
   const [currentView, setCurrentView] = useState<'dashboard' | 'about'>('dashboard');
 
@@ -42,11 +51,13 @@ function App() {
           <About />
         ) : (
           <div className={styles.unifiedView}>
-            {/* Metrics Panel - Compact at top */}
+            {/* Date Range Filter - On top */}
             <div className={styles.metricsSection}>
               <div className={styles.metricsHeader}>
                 {!isLoading && <DateRangeFilter onRangeChange={setDateRange} availableDates={availableDates} />}
               </div>
+              {/* Data Processing Timeline - Slim and minimal */}
+              <DataProcessingTimeline progress={progress} dataSource={DATA_SOURCE} />
               {isLoading ? <MetricsPanelSkeleton /> : <MetricsPanel ticks={ticks} lastUpdate={lastUpdate} />}
             </div>
 

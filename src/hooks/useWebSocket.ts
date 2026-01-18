@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback, startTransition } from 'react';
-import type { MarketTick, MarketMetrics } from '../types/market';
+import type { MarketTick, MarketMetrics, DataProcessingProgress } from '../types/market';
 
 // Compact tick format: [symbol, date, open, high, low, close, volume, openInt?]
 type CompactTick = [string, string, number, number, number, number, number, number?];
@@ -100,10 +100,11 @@ export interface UseWebSocketReturn {
   connect: () => void;
   disconnect: () => void;
   lastUpdate: Date | null;
+  progress: DataProcessingProgress;
 }
 
 const getWebSocketUrl = (): string => {
-  const url = import.meta.env.VITE_WS_URL as string | undefined;
+  const url = import.meta.env.VITE_WS_URL;
   if (typeof url === 'string' && url.length > 0) {
     return url;
   }
@@ -118,6 +119,42 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [progress, setProgress] = useState<DataProcessingProgress>({
+    totalTicks: 0,
+    processedTicks: 0,
+    progressPercent: 0,
+    dateRange: null,
+    availableDates: [],
+  });
+
+  /**
+   * Update progress information from ticks
+   */
+  const updateProgress = useCallback((newTicks: MarketTick[]) => {
+    if (newTicks.length === 0) {
+      setProgress({
+        totalTicks: 0,
+        processedTicks: 0,
+        progressPercent: 0,
+        dateRange: null,
+        availableDates: [],
+      });
+      return;
+    }
+
+    const dates = new Set(newTicks.map((t) => t.date));
+    const sortedDates = Array.from(dates).sort();
+    const dateRange =
+      sortedDates.length > 0 ? { start: sortedDates[0], end: sortedDates[sortedDates.length - 1] } : null;
+
+    setProgress({
+      totalTicks: newTicks.length,
+      processedTicks: newTicks.length,
+      progressPercent: 100, // WebSocket is always "complete" as it streams
+      dateRange,
+      availableDates: sortedDates,
+    });
+  }, []);
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<number | null>(null);
@@ -171,12 +208,16 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
               if (Array.isArray(tickData)) {
                 // Batched ticks - add all to beginning
                 setTicks((prev) => {
-                  return [...tickData, ...prev].slice(0, 1000);
+                  const newTicks = [...tickData, ...prev].slice(0, 1000);
+                  updateProgress(newTicks);
+                  return newTicks;
                 });
               } else {
                 // Single tick
                 setTicks((prev) => {
-                  return [tickData, ...prev].slice(0, 1000);
+                  const newTicks = [tickData, ...prev].slice(0, 1000);
+                  updateProgress(newTicks);
+                  return newTicks;
                 });
               }
               break;
@@ -184,9 +225,12 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
             case 'metrics':
               setMetrics(message.data);
               break;
-            case 'snapshot':
-              setTicks(message.data);
+            case 'snapshot': {
+              const snapshotTicks = message.data;
+              setTicks(snapshotTicks);
+              updateProgress(snapshotTicks);
               break;
+            }
             case 'error':
               setError(message.data);
               break;
@@ -223,7 +267,7 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
       setError('Failed to create WebSocket connection');
       console.error('WebSocket connection error:', err);
     }
-  }, [enabled]);
+  }, [enabled, updateProgress]);
 
   const disconnect = useCallback(() => {
     if (reconnectTimeoutRef.current) {
@@ -278,7 +322,7 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
     };
   }, [enabled, connect]);
 
-  return {
+  const returnValue: UseWebSocketReturn = {
     ticks,
     metrics,
     isConnected,
@@ -286,5 +330,8 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
     connect,
     disconnect,
     lastUpdate,
+    progress,
   };
+
+  return returnValue;
 }

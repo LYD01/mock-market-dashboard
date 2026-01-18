@@ -1,0 +1,127 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.timeline {
+  background: transparent;
+  border: none;
+  padding: $spacing-xs 0;
+  margin-bottom: $spacing-xs;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.statsInline {
+  @include flex-center;
+  gap: $spacing-sm;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: $font-family-mono;
+}
+
+.statItem {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.statLabel {
+  font-size: 0.625rem; // 10px for mobile
+  color: $text-tertiary;
+  font-family: $font-family-mono;
+  opacity: 0.6;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
+}
+
+.statValue {
+  font-size: 0.625rem; // 10px for mobile
+  color: $text-secondary;
+  font-family: $font-family-mono;
+  font-weight: 400;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
+}
+
+.timelineVisualization {
+  width: 100%;
+  max-width: 800px;
+  margin-top: $spacing-xs;
+}
+
+.timelineBar {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: rgba($text-tertiary, 0.1);
+  border-radius: $radius-sm;
+  overflow: visible;
+}
+
+.timelineProgress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, $color-primary, $color-primary-light);
+  border-radius: $radius-sm;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba($color-primary, 0.3);
+}
+
+.timelineMarker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.markerDot {
+  width: 6px;
+  height: 6px;
+  background: $text-secondary;
+  border: 2px solid rgba($text-tertiary, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba($text-secondary, 0.3);
+  transition: all $transition-fast;
+
+  .timelineMarker:hover & {
+    background: $color-primary;
+    transform: scale(1.4);
+    box-shadow: 0 0 8px rgba($color-primary, 0.6);
+  }
+}
+
+.markerLabel {
+  position: absolute;
+  top: 12px;
+  font-size: 0.625rem;
+  color: $text-tertiary;
+  font-family: $font-family-mono;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  padding: 2px 4px;
+  background: rgba($bg-secondary, 0.8);
+  border-radius: $radius-sm;
+  opacity: 0.7;
+
+  @include respond-to(sm) {
+    font-size: $font-size-xs;
+  }
+
+  .timelineMarker:hover & {
+    opacity: 1;
+    color: $text-secondary;
+  }
+}
