@@ -55,7 +55,6 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
     if (!svgRef.current) return;
 
     const svg = svgRef.current;
-    const rect = svg.getBoundingClientRect();
     const svgPoint = svg.createSVGPoint();
 
     svgPoint.x = e.clientX;
