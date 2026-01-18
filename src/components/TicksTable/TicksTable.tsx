@@ -8,7 +8,7 @@ interface TicksTableProps {
   dateRange: DateRange | null;
 }
 
-type SortField = 'date' | 'open' | 'high' | 'low' | 'close' | 'volume';
+type SortField = 'symbol' | 'date' | 'open' | 'high' | 'low' | 'close' | 'volume';
 type SortDirection = 'asc' | 'desc';
 
 const RECORDS_PER_PAGE_OPTIONS = [10, 20, 50] as const;
@@ -39,6 +39,10 @@ export function TicksTable({ ticks, dateRange }: TicksTableProps) {
       let bValue: number | string;
 
       switch (sortField) {
+        case 'symbol':
+          aValue = a.symbol;
+          bValue = b.symbol;
+          break;
         case 'date':
           aValue = a.date;
           bValue = b.date;
@@ -202,6 +206,9 @@ export function TicksTable({ ticks, dateRange }: TicksTableProps) {
         <table className={styles.table}>
           <thead>
             <tr>
+              <th className={`${styles.th} ${styles.sortable}`} onClick={() => handleSort('symbol')}>
+                Symbol {getSortIcon('symbol')}
+              </th>
               <th className={`${styles.th} ${styles.sortable}`} onClick={() => handleSort('date')}>
                 Date {getSortIcon('date')}
               </th>
@@ -226,7 +233,7 @@ export function TicksTable({ ticks, dateRange }: TicksTableProps) {
           <tbody>
             {paginatedTicks.length === 0 ? (
               <tr>
-                <td colSpan={7} className={styles.empty}>
+                <td colSpan={8} className={styles.empty}>
                   No data available
                 </td>
               </tr>
@@ -234,7 +241,13 @@ export function TicksTable({ ticks, dateRange }: TicksTableProps) {
               paginatedTicks.map((tick, index) => {
                 const priceChange = getPriceChange(tick, index);
                 return (
-                  <tr key={`${tick.date}-${(currentPage - 1) * recordsPerPage + index}`} className={styles.row}>
+                  <tr
+                    key={`${tick.symbol}-${tick.date}-${(currentPage - 1) * recordsPerPage + index}`}
+                    className={styles.row}
+                  >
+                    <td className={styles.td}>
+                      <span className={styles.symbol}>{tick.symbol}</span>
+                    </td>
                     <td className={styles.td}>
                       <div className={styles.dateCell}>
                         <div>{formatDateShort(tick.date)}</div>

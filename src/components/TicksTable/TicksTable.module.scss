@@ -129,6 +129,13 @@
   }
 }
 
+.symbol {
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  font-family: $font-family-mono;
+  letter-spacing: 0.05em;
+}
+
 .dateCell {
   @include flex-column;
   gap: $spacing-xs;
