@@ -53,6 +53,7 @@
   color: $text-tertiary;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  // Color updated in variables for better contrast
 }
 
 .chartContainer {
@@ -96,6 +97,7 @@
   font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-weight: $font-weight-medium;
+  // Color updated in variables for better contrast
 
   @include respond-to(sm) {
     font-size: $font-size-xs;

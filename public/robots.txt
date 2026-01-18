@@ -1,0 +1,15 @@
+# robots.txt for Mock Market Dashboard
+
+# Allow all crawlers to access all content
+User-agent: *
+Allow: /
+
+# Disallow access to API endpoints and internal files
+Disallow: /api/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /server/
+
+# Sitemap location (update with your actual domain when deployed)
+# Sitemap: https://yourdomain.com/sitemap.xml

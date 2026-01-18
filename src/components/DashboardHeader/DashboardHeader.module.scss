@@ -171,6 +171,7 @@
   color: $text-tertiary;
   font-family: $font-family-mono;
   text-align: right;
+  // Color updated in variables for better contrast
 
   @include respond-to(sm) {
     font-size: $font-size-xs;

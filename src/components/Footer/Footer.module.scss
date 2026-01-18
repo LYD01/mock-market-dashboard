@@ -3,53 +3,69 @@
 
 .footer {
   margin-top: auto;
-  padding: $spacing-lg $spacing-sm;
+  padding: $spacing-xl $spacing-md;
   border-top: 1px solid rgba($text-tertiary, 0.1);
   background: transparent;
 
   @include respond-to(sm) {
-    padding: $spacing-xl $spacing-md;
+    padding: $spacing-2xl $spacing-lg;
   }
 
   @include respond-to(md) {
-    padding: $spacing-2xl $spacing-xl;
+    padding: $spacing-3xl $spacing-xl;
   }
 }
 
 .content {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: $spacing-sm;
+  justify-content: center;
+  gap: $spacing-md;
   flex-wrap: wrap;
-  font-size: $font-size-xs;
-  color: $text-tertiary;
-}
-
-.favicon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  opacity: 0.7;
-  transition: opacity $transition-fast;
+  font-size: $font-size-base;
+  color: $text-secondary;
+  max-width: 1200px;
+  margin: 0 auto;
 
   @include respond-to(sm) {
-    width: 28px;
-    height: 28px;
+    font-size: $font-size-lg;
+    gap: $spacing-lg;
   }
 
   @include respond-to(md) {
-    width: 32px;
-    height: 32px;
+    font-size: $font-size-xl;
+    gap: $spacing-xl;
+  }
+}
+
+.favicon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  opacity: 0.7;
+  transition: all $transition-fast;
+
+  @include respond-to(sm) {
+    width: 40px;
+    height: 40px;
+  }
+
+  @include respond-to(md) {
+    width: 48px;
+    height: 48px;
   }
 
   &:hover {
     opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 8px $color-primary-glow);
   }
 }
 
 .text {
   font-family: $font-family-primary;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .link {
@@ -58,12 +74,31 @@
   font-family: $font-family-primary;
   transition: all $transition-fast;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: $font-size-xs;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: inherit;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-sm;
+    background: rgba($color-primary, 0.08);
+    opacity: 0;
+    transition: opacity $transition-fast;
+  }
 
   &:hover {
     color: $color-primary;
     text-shadow: 0 0 8px $color-primary-glow;
+    transform: translateY(-1px);
+
+    &::before {
+      opacity: 0.5;
+    }
   }
 
   &:focus-visible {
@@ -71,11 +106,13 @@
   }
 
   &:active {
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.98);
   }
 }
 
 .separator {
   color: $text-tertiary;
-  opacity: 0.5;
+  font-size: 1.2em;
+  font-weight: 300;
+  opacity: 0.6;
 }

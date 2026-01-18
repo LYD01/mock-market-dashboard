@@ -33,7 +33,7 @@
   font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
   font-family: $font-family-mono;
-  opacity: 0.6;
+  // Removed opacity for better contrast
 
   @include respond-to(sm) {
     font-size: $font-size-xs;
@@ -112,16 +112,15 @@
   white-space: nowrap;
   transform: translateX(-50%);
   padding: 2px 4px;
-  background: rgba($bg-secondary, 0.8);
+  background: rgba($bg-secondary, 0.9);
   border-radius: $radius-sm;
-  opacity: 0.7;
+  // Removed opacity for better contrast
 
   @include respond-to(sm) {
     font-size: $font-size-xs;
   }
 
   .timelineMarker:hover & {
-    opacity: 1;
     color: $text-secondary;
   }
 }

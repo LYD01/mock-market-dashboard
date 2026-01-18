@@ -53,6 +53,7 @@
   font-family: $font-family-mono;
   font-size: $font-size-sm;
   color: $text-tertiary;
+  // Color updated in variables for better contrast
 }
 
 .tableContainer {
@@ -186,6 +187,7 @@
 .paginationInfo {
   color: $text-tertiary;
   font-weight: $font-weight-normal;
+  // Color updated in variables for better contrast
 }
 
 .recordsPerPageSelector {
@@ -199,6 +201,7 @@
   color: $text-tertiary;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  // Color updated in variables for better contrast
 }
 
 .recordsPerPageSelect {

@@ -161,9 +161,17 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 5;
   const connectRef = useRef<(() => void) | null>(null);
+  const isMountedRef = useRef(true);
+  const isIntentionallyClosingRef = useRef(false);
 
   const connect = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
+    // Don't connect if component is unmounted
+    if (!isMountedRef.current) {
+      return;
+    }
+
+    // Don't create a new connection if one is already open or connecting
+    if (wsRef.current?.readyState === WebSocket.OPEN || wsRef.current?.readyState === WebSocket.CONNECTING) {
       return;
     }
 
@@ -179,13 +187,24 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
       wsRef.current = ws;
 
       ws.onopen = () => {
-        setIsConnected(true);
-        setError(null);
-        reconnectAttempts.current = 0;
-        console.log('WebSocket connected');
+        // Only update state if component is still mounted
+        if (isMountedRef.current) {
+          setIsConnected(true);
+          setError(null);
+          reconnectAttempts.current = 0;
+          console.log('WebSocket connected');
+        } else {
+          // Component unmounted, close the connection
+          ws.close();
+        }
       };
 
       ws.onmessage = (event) => {
+        // Don't process messages if component is unmounted
+        if (!isMountedRef.current) {
+          return;
+        }
+
         try {
           // WebSocket message data can be string, Blob, or ArrayBuffer
           // We only handle string messages
@@ -242,24 +261,38 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
       };
 
       ws.onerror = (event) => {
-        console.error('WebSocket error:', event);
-        setError('WebSocket connection error');
+        // Suppress errors that occur during intentional cleanup (e.g., StrictMode double-invoke)
+        if (isIntentionallyClosingRef.current) {
+          return;
+        }
+        // Only log errors, don't set state if unmounted
+        if (isMountedRef.current) {
+          console.error('WebSocket error:', event);
+          setError('WebSocket connection error');
+        }
       };
 
       ws.onclose = () => {
-        setIsConnected(false);
+        // Reset intentional closing flag when connection closes
+        isIntentionallyClosingRef.current = false;
+        // Only update state if component is still mounted
+        if (isMountedRef.current) {
+          setIsConnected(false);
+        }
         wsRef.current = null;
 
-        // Attempt to reconnect only if enabled
-        if (enabled && reconnectAttempts.current < maxReconnectAttempts) {
+        // Attempt to reconnect only if enabled and component is still mounted
+        if (isMountedRef.current && enabled && reconnectAttempts.current < maxReconnectAttempts) {
           reconnectAttempts.current += 1;
           const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
           reconnectTimeoutRef.current = window.setTimeout(() => {
-            connectRef.current?.();
+            if (isMountedRef.current) {
+              connectRef.current?.();
+            }
           }, delay);
         } else if (!enabled) {
           reconnectAttempts.current = 0;
-        } else {
+        } else if (isMountedRef.current && reconnectAttempts.current >= maxReconnectAttempts) {
           setError('Max reconnection attempts reached');
         }
       };
@@ -275,8 +308,28 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
       reconnectTimeoutRef.current = null;
     }
     if (wsRef.current) {
-      wsRef.current.close();
+      const ws = wsRef.current;
+      // Mark as intentionally closing to suppress expected errors
+      isIntentionallyClosingRef.current = true;
+
+      // Only close if OPEN - if CONNECTING, just remove reference to avoid browser warning
+      if (ws.readyState === WebSocket.OPEN) {
+        try {
+          ws.close();
+        } catch (err) {
+          console.debug('Error closing WebSocket:', err);
+        }
+      } else if (ws.readyState === WebSocket.CONNECTING) {
+        // Don't call close() during CONNECTING to avoid browser warning
+        // Just remove reference - if it connects, onopen will close it if unmounted
+        // If it fails, error handler will be suppressed
+      }
+
       wsRef.current = null;
+      // Reset flag after a brief delay to allow error event to be suppressed
+      setTimeout(() => {
+        isIntentionallyClosingRef.current = false;
+      }, 0);
     }
     setIsConnected(false);
   }, []);
@@ -287,17 +340,38 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
   }, [connect]);
 
   useEffect(() => {
+    isMountedRef.current = true;
+
     if (!enabled) {
       // If disabled, cleanup will handle disconnection
       return () => {
+        isMountedRef.current = false;
         // Cleanup: disconnect when disabled or component unmounts
         if (reconnectTimeoutRef.current) {
           clearTimeout(reconnectTimeoutRef.current);
           reconnectTimeoutRef.current = null;
         }
         if (wsRef.current) {
-          wsRef.current.close();
+          const ws = wsRef.current;
+          // Mark as intentionally closing to suppress expected errors
+          isIntentionallyClosingRef.current = true;
+          // Only close if OPEN - if CONNECTING, just remove reference to avoid browser warning
+          if (ws.readyState === WebSocket.OPEN) {
+            try {
+              ws.close();
+            } catch (err) {
+              console.debug('Error closing WebSocket during cleanup:', err);
+            }
+          } else if (ws.readyState === WebSocket.CONNECTING) {
+            // Don't call close() during CONNECTING to avoid browser warning
+            // Just remove reference - if it connects, onopen will close it if unmounted
+            // If it fails, error handler will be suppressed
+          }
           wsRef.current = null;
+          // Reset flag after a brief delay to allow error event to be suppressed
+          setTimeout(() => {
+            isIntentionallyClosingRef.current = false;
+          }, 0);
         }
         // State will be updated by onclose handler, avoid setState in cleanup
       };
@@ -305,18 +379,39 @@ export function useWebSocket(enabled = true): UseWebSocketReturn {
 
     // Connect when enabled - use startTransition to avoid synchronous setState
     startTransition(() => {
-      connect();
+      if (isMountedRef.current) {
+        connect();
+      }
     });
 
     return () => {
+      isMountedRef.current = false;
       // Cleanup: disconnect when enabled changes or component unmounts
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
         reconnectTimeoutRef.current = null;
       }
       if (wsRef.current) {
-        wsRef.current.close();
+        const ws = wsRef.current;
+        // Mark as intentionally closing to suppress expected errors
+        isIntentionallyClosingRef.current = true;
+        // Only close if OPEN - if CONNECTING, just remove reference to avoid browser warning
+        if (ws.readyState === WebSocket.OPEN) {
+          try {
+            ws.close();
+          } catch (err) {
+            console.debug('Error closing WebSocket during cleanup:', err);
+          }
+        } else if (ws.readyState === WebSocket.CONNECTING) {
+          // Don't call close() during CONNECTING to avoid browser warning
+          // Just remove reference - if it connects, onopen will close it if unmounted
+          // If it fails, error handler will be suppressed
+        }
         wsRef.current = null;
+        // Reset flag after a brief delay to allow error event to be suppressed
+        setTimeout(() => {
+          isIntentionallyClosingRef.current = false;
+        }, 0);
       }
       // State will be updated by onclose handler, avoid setState in cleanup
     };

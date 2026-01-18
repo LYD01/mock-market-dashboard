@@ -30,7 +30,7 @@ $bg-overlay: rgba(0, 0, 0, 0.85); // Overlays
 // Text Colors
 $text-primary: #ffffff;
 $text-secondary: #b0b0b0;
-$text-tertiary: #707070;
+$text-tertiary: #909090; // Updated for WCAG AA contrast (4.5:1 on #0a0a0a)
 $text-muted: #505050;
 
 // Border Colors
