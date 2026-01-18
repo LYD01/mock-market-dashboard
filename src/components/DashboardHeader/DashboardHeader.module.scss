@@ -150,6 +150,11 @@
   box-shadow: 0 0 8px $color-secondary-glow;
 }
 
+.statusIndicator.mock .statusDot {
+  background: $color-warning;
+  box-shadow: 0 0 8px $color-warning-glow;
+}
+
 .statusIndicator.disconnected .statusDot {
   background: $color-danger;
   box-shadow: 0 0 8px $color-danger-glow;

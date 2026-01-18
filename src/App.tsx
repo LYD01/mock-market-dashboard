@@ -44,6 +44,7 @@ function App() {
         onReconnect={connect}
         currentView={currentView}
         onViewChange={setCurrentView}
+        dataSource={DATA_SOURCE}
       />
 
       <main className={styles.main}>
