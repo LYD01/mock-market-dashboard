@@ -8,32 +8,54 @@
   margin-bottom: $spacing-xs;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: $spacing-sm;
+  width: 100%;
+
+  @include respond-to(sm) {
+    align-items: center;
+    gap: $spacing-md;
+  }
 }
 
 .statsInline {
-  @include flex-center;
-  gap: $spacing-sm;
-  align-items: center;
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  align-items: flex-start;
   font-family: $font-family-mono;
+  width: 100%;
+
+  @include respond-to(sm) {
+    @include flex-center;
+    flex-direction: row;
+    gap: $spacing-sm;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
 
 .statItem {
   display: inline-flex;
   align-items: center;
   gap: $spacing-xs;
-  padding: 0;
+  padding: $spacing-xs 0;
   background: transparent;
   border: none;
+  min-height: 1.5rem; // Better touch target on mobile
+
+  @include respond-to(sm) {
+    padding: 0;
+    min-height: auto;
+  }
 }
 
 .statLabel {
-  font-size: 0.625rem; // 10px for mobile
+  font-size: 0.75rem; // 12px for mobile - increased for better readability
   color: $text-tertiary;
   font-family: $font-family-mono;
-  // Removed opacity for better contrast
+  white-space: nowrap;
+  flex-shrink: 0;
 
   @include respond-to(sm) {
     font-size: $font-size-xs;
@@ -41,13 +63,45 @@
 }
 
 .statValue {
-  font-size: 0.625rem; // 10px for mobile
+  font-size: 0.75rem; // 12px for mobile - increased for better readability
   color: $text-secondary;
   font-family: $font-family-mono;
   font-weight: 400;
+  word-break: break-word;
+  line-height: 1.4;
 
   @include respond-to(sm) {
     font-size: $font-size-xs;
+    word-break: normal;
+    line-height: normal;
+  }
+}
+
+.dateRange {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.125rem;
+  max-width: 100%;
+
+  @include respond-to(sm) {
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+  }
+}
+
+.dateStart,
+.dateEnd {
+  white-space: nowrap;
+}
+
+.dateArrow {
+  color: $text-tertiary;
+  margin: 0 0.125rem;
+  flex-shrink: 0;
+
+  @include respond-to(sm) {
+    margin: 0 0.25rem;
   }
 }
 
@@ -55,15 +109,26 @@
   width: 100%;
   max-width: 800px;
   margin-top: $spacing-xs;
+  padding: 0 $spacing-xs;
+
+  @include respond-to(sm) {
+    padding: 0;
+    margin-top: $spacing-sm;
+  }
 }
 
 .timelineBar {
   position: relative;
   width: 100%;
-  height: 6px;
-  background: rgba($text-tertiary, 0.1);
+  height: 10px; // Taller on mobile for better visibility
+  background: rgba($text-tertiary, 0.15);
   border-radius: $radius-sm;
   overflow: visible;
+
+  @include respond-to(sm) {
+    height: 6px;
+    background: rgba($text-tertiary, 0.1);
+  }
 }
 
 .timelineProgress {
@@ -75,6 +140,11 @@
   border-radius: $radius-sm;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 8px rgba($color-primary, 0.3);
+
+  // More prominent on mobile
+  @include respond-to(mobile) {
+    box-shadow: 0 0 10px rgba($color-primary, 0.4);
+  }
 }
 
 .timelineMarker {
@@ -85,42 +155,71 @@
   flex-direction: column;
   align-items: center;
   z-index: 2;
+  touch-action: manipulation; // Better touch handling on mobile
 }
 
 .markerDot {
-  width: 6px;
-  height: 6px;
-  background: $text-secondary;
-  border: 2px solid rgba($text-tertiary, 0.2);
+  width: 4px; // Smaller on mobile to reduce clutter
+  height: 4px;
+  background: rgba($text-secondary, 0.4); // More subtle on mobile
+  border: 1px solid rgba($text-tertiary, 0.15);
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba($text-secondary, 0.3);
+  box-shadow: 0 0 2px rgba($text-secondary, 0.2);
   transition: all $transition-fast;
+  cursor: pointer;
+  opacity: 0.6; // More subtle on mobile
 
-  .timelineMarker:hover & {
+  // Even more minimal on very small screens (320px and below)
+  @media (max-width: 360px) {
+    width: 3px;
+    height: 3px;
+    opacity: 0.4;
+    border-width: 0.5px;
+  }
+
+  @include respond-to(sm) {
+    width: 6px;
+    height: 6px;
+    background: $text-secondary;
+    border: 2px solid rgba($text-tertiary, 0.2);
+    box-shadow: 0 0 4px rgba($text-secondary, 0.3);
+    opacity: 1;
+  }
+
+  .timelineMarker:hover &,
+  .timelineMarker:active & {
     background: $color-primary;
     transform: scale(1.4);
     box-shadow: 0 0 8px rgba($color-primary, 0.6);
+    opacity: 1;
   }
 }
 
 .markerLabel {
-  position: absolute;
-  top: 12px;
-  font-size: 0.625rem;
-  color: $text-tertiary;
-  font-family: $font-family-mono;
-  white-space: nowrap;
-  transform: translateX(-50%);
-  padding: 2px 4px;
-  background: rgba($bg-secondary, 0.9);
-  border-radius: $radius-sm;
-  // Removed opacity for better contrast
+  display: none; // Hidden on mobile
 
   @include respond-to(sm) {
+    display: block; // Show on larger screens
+    position: absolute;
+    top: 12px;
     font-size: $font-size-xs;
+    color: $text-tertiary;
+    font-family: $font-family-mono;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    padding: 2px 4px;
+    background: rgba($bg-secondary, 0.95);
+    border-radius: $radius-sm;
+    backdrop-filter: blur(4px);
+    pointer-events: none; // Prevent touch interference
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+    opacity: 1;
   }
 
-  .timelineMarker:hover & {
+  .timelineMarker:hover &,
+  .timelineMarker:active & {
     color: $text-secondary;
   }
 }

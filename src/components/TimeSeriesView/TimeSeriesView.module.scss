@@ -126,11 +126,21 @@
   width: 100%;
   height: 100%;
   display: block;
+  cursor: crosshair;
 }
 
 .gridLine {
   stroke: rgba(255, 255, 255, 0.08);
   stroke-width: 0.5;
+}
+
+.crosshairLine {
+  stroke: $color-primary;
+  stroke-width: 1.5;
+  stroke-dasharray: 6, 4;
+  pointer-events: none;
+  transition: opacity $transition-fast;
+  opacity: 0.85;
 }
 
 // Candlestick Styles

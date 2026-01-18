@@ -56,8 +56,17 @@ export function DataProcessingTimeline({ progress, dataSource }: DataProcessingT
     return generateTimelineIntervals(progress.dateRange.start, progress.dateRange.end);
   }, [progress.dateRange]);
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+  const formatDate = (dateStr: string, compact: boolean = false) => {
+    const date = new Date(dateStr);
+    if (compact) {
+      // Compact format for mobile: "MMM DD, YYYY"
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -88,7 +97,11 @@ export function DataProcessingTimeline({ progress, dataSource }: DataProcessingT
           <span className={styles.statItem}>
             <span className={styles.statLabel}>Range:</span>
             <span className={styles.statValue}>
-              {formatDate(progress.dateRange.start)} → {formatDate(progress.dateRange.end)}
+              <span className={styles.dateRange}>
+                <span className={styles.dateStart}>{formatDate(progress.dateRange.start, true)}</span>
+                <span className={styles.dateArrow}> → </span>
+                <span className={styles.dateEnd}>{formatDate(progress.dateRange.end, true)}</span>
+              </span>
             </span>
           </span>
         )}

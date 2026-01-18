@@ -31,6 +31,60 @@ export function About() {
             extraction and transformation to WebSocket communication and responsive UI design.
           </p>
         </div>
+
+        <h2 className={styles.sectionTitle}>Local Development Setup</h2>
+        <div className={styles.sectionContent}>
+          <p>
+            Currently, you're viewing the dashboard with <strong>mock data</strong> from CSV files. To test the{' '}
+            <strong>WebSocket data source</strong> with real-time streaming, you can set up local development:
+          </p>
+          <ol>
+            <li>
+              <strong>Clone the repository</strong> (if you haven't already):
+              <pre className={styles.codeBlock}>
+                <code>git clone &lt;repository-url&gt;</code>
+              </pre>
+            </li>
+            <li>
+              <strong>Install dependencies</strong>:
+              <pre className={styles.codeBlock}>
+                <code>npm install</code>
+              </pre>
+            </li>
+            <li>
+              <strong>Set up the environment</strong>:
+              <p>
+                Create a <code>.env</code> file in the project root and add:
+              </p>
+              <pre className={styles.codeBlock}>
+                <code>VITE_DATA_SOURCE=websocket{'\n'}VITE_WS_URL=ws://localhost:8080/ws</code>
+              </pre>
+            </li>
+            <li>
+              <strong>Start the WebSocket server</strong> (requires Bun):
+              <pre className={styles.codeBlock}>
+                <code>npm run server</code>
+              </pre>
+              <p>
+                The server will run on <code>http://localhost:8080</code>
+              </p>
+            </li>
+            <li>
+              <strong>Start the frontend</strong>:
+              <pre className={styles.codeBlock}>
+                <code>npm run dev</code>
+              </pre>
+            </li>
+            <li>
+              The app will connect to the WebSocket server and display real-time data. The status indicator will show{' '}
+              <strong>"Connected"</strong> in green when successfully connected to the WebSocket server.
+            </li>
+          </ol>
+          <p>
+            <strong>Note:</strong> To switch back to mock data, remove the <code>VITE_DATA_SOURCE</code> environment
+            variable or set it to <code>mock</code>.
+          </p>
+        </div>
       </div>
     </div>
   );

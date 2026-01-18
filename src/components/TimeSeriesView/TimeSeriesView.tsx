@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import type { MarketTick, DateRange } from '../../types/market';
 import styles from './TimeSeriesView.module.scss';
 
@@ -8,6 +8,10 @@ interface TimeSeriesViewProps {
 }
 
 export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
+
   const filteredTicks = useMemo(() => {
     if (!dateRange) return ticks;
     return ticks.filter((tick) => {
@@ -47,6 +51,37 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
     return (1 - normalizedPrice) * (1 - 2 * padding) + padding; // Invert Y-axis and add padding
   };
 
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!svgRef.current) return;
+
+    const svg = svgRef.current;
+    const rect = svg.getBoundingClientRect();
+    const svgPoint = svg.createSVGPoint();
+
+    svgPoint.x = e.clientX;
+    svgPoint.y = e.clientY;
+
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return;
+
+    const svgCoordinates = svgPoint.matrixTransform(ctm.inverse());
+
+    // Clamp coordinates to chart bounds
+    const x = Math.max(0, Math.min(svgCoordinates.x, chartDimensions.chartWidth));
+    const y = Math.max(0, Math.min(svgCoordinates.y, chartDimensions.chartHeight));
+
+    setMousePosition({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setMousePosition(null);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
   if (displayTicks.length === 0) {
     return (
       <div className={styles.panel}>
@@ -76,9 +111,13 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
 
         <div className={styles.chart}>
           <svg
+            ref={svgRef}
             className={styles.svg}
             viewBox={`0 0 ${chartDimensions.chartWidth} ${chartDimensions.chartHeight}`}
             preserveAspectRatio="xMidYMid meet"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             {/* Grid lines - horizontal lines at regular intervals */}
             {Array.from({ length: 11 }, (_, i) => i / 10).map((ratio) => {
@@ -116,6 +155,28 @@ export function TimeSeriesView({ ticks, dateRange }: TimeSeriesViewProps) {
                 </g>
               );
             })}
+
+            {/* Crosshair lines - rendered on top for visibility */}
+            {isHovering && mousePosition && (
+              <>
+                {/* Vertical line */}
+                <line
+                  x1={mousePosition.x}
+                  y1="0"
+                  x2={mousePosition.x}
+                  y2={chartDimensions.chartHeight}
+                  className={styles.crosshairLine}
+                />
+                {/* Horizontal line */}
+                <line
+                  x1="0"
+                  y1={mousePosition.y}
+                  x2={chartDimensions.chartWidth}
+                  y2={mousePosition.y}
+                  className={styles.crosshairLine}
+                />
+              </>
+            )}
           </svg>
         </div>
       </div>

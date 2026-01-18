@@ -58,7 +58,13 @@ export function DashboardHeader({
         <div className={styles.status}>
           <div className={`${styles.statusIndicator} ${getStatusClass()}`}>
             <span className={styles.statusDot} />
-            <span className={styles.statusText}>{getStatusText()}</span>
+            {dataSource === 'mock' && isConnected && currentView !== 'about' ? (
+              <button type="button" onClick={() => onViewChange('about')} className={styles.statusTextLink}>
+                {getStatusText()}
+              </button>
+            ) : (
+              <span className={styles.statusText}>{getStatusText()}</span>
+            )}
           </div>
 
           {lastUpdate && <div className={styles.lastUpdate}>Last update: {formatTime(lastUpdate)}</div>}

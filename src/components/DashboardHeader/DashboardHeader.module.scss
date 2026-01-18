@@ -92,15 +92,14 @@
 
 .right {
   @include flex-center;
+  position: absolute;
+  top: 0;
+  right: 0;
   padding: $spacing-md $spacing-sm;
-  width: 100%;
+  width: auto;
   order: 2;
 
   @include respond-to(sm) {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: auto;
     padding: $spacing-lg $spacing-md;
     order: initial;
   }
@@ -115,13 +114,12 @@
   flex-direction: column;
   align-items: flex-end;
   gap: $spacing-xs;
-  width: 100%;
+  width: auto;
 
   @include respond-to(sm) {
     flex-direction: row;
     align-items: center;
     gap: $spacing-sm;
-    width: auto;
     flex-wrap: wrap;
   }
 }
@@ -171,6 +169,37 @@
   }
 }
 
+.statusTextLink {
+  @extend .statusText;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: $color-warning;
+  text-decoration: underline;
+  text-decoration-color: $color-warning;
+  text-underline-offset: 2px;
+  transition: all $transition-base;
+  font-family: inherit;
+  font-size: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+
+  &:hover {
+    color: #ffcc33; // Lighter orange
+    text-decoration-color: #ffcc33;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-warning, 0.3);
+  }
+}
+
 .lastUpdate {
   font-size: 0.625rem; // 10px for mobile
   color: $text-tertiary;
@@ -192,13 +221,13 @@
   background: rgba($color-danger, 0.1);
   border: 1px solid rgba($color-danger, 0.3);
   border-radius: $radius-sm;
-  width: 100%;
+  width: auto;
+  max-width: calc(100vw - #{$spacing-md * 2});
   text-align: right;
 
   @include respond-to(sm) {
     flex-direction: row;
     gap: $spacing-sm;
-    width: auto;
     white-space: nowrap;
   }
 }
