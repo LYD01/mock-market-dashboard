@@ -1,4 +1,4 @@
-# Mock Market Dashboard
+# Mock Market Dashboard (make with ai)
 
 A real-time market data dashboard built with React, TypeScript, and Vite. The app displays stock and ETF market data with interactive charts, tables, and metrics.
 
